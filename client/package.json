@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "mocha": "^10.0.0",
     "mongodb": "^3.5.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -17,7 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "mocha src/specs",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

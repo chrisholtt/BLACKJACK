@@ -9,3 +9,5 @@ const getValue = (card) => {
 }
 
 console.log(getValue(4))
+
+module.exports = getValue;
