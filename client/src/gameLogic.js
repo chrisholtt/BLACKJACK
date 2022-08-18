@@ -8,6 +8,7 @@ const getValue = (card) => {
     }
 }
 
+
 const getHandValue = (hand) => {
     const total = hand.reduce((prevValue, currentVal) => {
         return prevValue + getValue(currentVal)
@@ -23,4 +24,4 @@ const hand = [
 
 console.log(getHandValue(hand))
 
-
+module.exports = getValue;
