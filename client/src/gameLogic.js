@@ -8,6 +8,20 @@ const getValue = (card) => {
     }
 }
 
-console.log(getValue(4))
+
+const getHandValue = (hand) => {
+    const total = hand.reduce((prevValue, currentVal) => {
+        return prevValue + getValue(currentVal)
+    }, 0)
+    return total
+}
+
+const hand = [
+    "ACE",
+    "QUEEN",
+    5
+]
+
+console.log(getHandValue(hand))
 
 module.exports = getValue;
