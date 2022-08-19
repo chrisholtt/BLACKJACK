@@ -1,5 +1,5 @@
 const assert = require('assert')
-const getValue = require('../gameLogic')
+const getValue = require('../gameLogic').getValue
 
 describe('card', function() {
     let AceCard
