@@ -14,12 +14,14 @@ function App() {
       .then(data => setDeckId(data.deck_id))
   }, [])
 
+
   const handleClick = () => {
     fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(res => res.json())
       // .then(data => setPlayerHand(prev => [...prev, data]))
       .then(data => setPlayerHand([data.cards[0]]))
   }
+
 
   const cardNodes = playerHand.map((card, index) => {
     return (
