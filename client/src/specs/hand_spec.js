@@ -1,5 +1,5 @@
 const assert = require('assert')
-const getValue = require('../gameLogic')
+const {getHandValue} = require('../gameLogic')
 
 describe('card', function() {
     let AceCard
@@ -27,20 +27,20 @@ describe('card', function() {
         hand4 = [KingCard, JackCard]
         hand5 = [SevenCard, SevenCard]
     })
-    it('should be equal to ', function(){
-        assert.deepStrictEqual(21 , hand1)
+    it('should be equal to 21', function(){
+        assert.deepStrictEqual(21 , getHandValue(hand1))
     })
-    it('should be equal to ', function(){
-        assert.deepStrictEqual(26 , hand2)
+    it('should be equal to 26', function(){
+        assert.deepStrictEqual(26 , getHandValue(hand2))
     })
-    it('should be equal to ', function(){
-        assert.deepStrictEqual(24 , hand3)
+    it('should be equal to 23', function(){
+        assert.deepStrictEqual(23 , getHandValue(hand3))
     })
-    it('should be equal to ', function(){
-        assert.deepStrictEqual(20 , hand4)
+    it('should be equal to 20', function(){
+        assert.deepStrictEqual(20 , getHandValue(hand4))
     })
     it('should be equal to 14', function(){
-        assert.deepStrictEqual(14, hand5)
+        assert.deepStrictEqual(14, getHandValue(hand5))
     })
 
     })
