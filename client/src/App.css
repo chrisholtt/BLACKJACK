@@ -25,4 +25,9 @@ img {
 
 .game-mode-container{
     display: flex;
+    flex-direction: column;
+}
+
+.games{
+    display: flex;
 }

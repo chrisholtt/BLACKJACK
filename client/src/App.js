@@ -54,23 +54,28 @@ function App() {
       <div className="app">
         <Navbar />
 
+
         <Routes>
           <Route path="/user" element={<User />} />
           <Route path="/level" element={<Level />} />
           <Route path="/money" element={<Money />} />
+
+          <Route path="/players1" element={<GameModes />} />
+          <Route path="/players2" element={<User />} />
+          <Route path="/rules" element={<User />} />
         </Routes>
 
 
 
         <PlayerModes />
 
-        <GameModes />
+        {/* <GameModes /> */}
 
 
 
 
-        <button onClick={handleClick}>Draw card</button>
-        {playerHand.length && cardNodes}
+        {/* <button onClick={handleClick}>Draw card</button> */}
+        {/* {playerHand.length && cardNodes} */}
       </div>
 
     </div>
