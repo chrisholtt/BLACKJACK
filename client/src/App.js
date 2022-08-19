@@ -8,6 +8,7 @@ import Level from './components/Level';
 import Money from './components/Money';
 import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
+import Game from './components/Game'
 import styled from 'styled-components';
 
 
@@ -61,9 +62,6 @@ function App() {
     <div className='app-wrapper'>
 
       <div className="app">
-        <Navbar />
-
-
         <Routes>
           <Route path="/user" element={<User />} />
           <Route path="/level" element={<Level />} />
@@ -72,24 +70,28 @@ function App() {
           <Route path="/players1" element={<GameModes />} />
           <Route path="/players2" element={<User />} />
           <Route path="/rules" element={<User />} />
+
+          <Route path="/game1" element={<Game />} />
+          <Route path="/game2" element={<Game />} />
         </Routes>
 
+        <Navbar />
 
 
         <PlayerModes />
 
-        {/* <GameModes /> */}
 
-        <button onClick={handleClick}>Draw card</button>
+
+
+        {/* <button onClick={handleClick}>Draw card</button>
         <DealrHand>
           {dealerCardsNodes}
         </DealrHand>
         <hr />
-  { playerHand.length && playerCardsNodes }
-
-      </div >
+        {playerHand.length && playerCardsNodes} */}
 
       </div>
+    </div>
 
 
 
