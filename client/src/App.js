@@ -37,7 +37,15 @@ function App() {
 
   }
 
-
+  const cardNodes = playerHand.map((card, index) => {
+    return (
+      <Draggable>
+        <div>
+          <img key={index} src={card.image} />
+        </div>
+      </Draggable>
+    )
+  })
 
   const dealerCardsNodes = dealersHand.map((card, index) => {
     return (<div>
@@ -71,18 +79,9 @@ function App() {
         {/* <GameModes /> */}
 
         <button onClick={handleClick}>Draw card</button>
-<<<<<<< HEAD
-        <DealrHand>
-          {dealerCardsNodes}
-        </DealrHand>
-        <hr />
-  { playerHand.length && playerCardsNodes }
-=======
-        {playerHand.length && cardNodes}
->>>>>>> 510374c9fa238d7489431f44f28dbdfbaa12bc68
-      </div >
 
-    </div >
+      </div>
+    </div>
 
 
 
