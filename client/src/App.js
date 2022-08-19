@@ -18,12 +18,12 @@ function App() {
     fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(res => res.json())
       // .then(data => setPlayerHand(prev => [...prev, data]))
-      .then(data => console.log(data))
+      .then(data => setPlayerHand([data.cards[0]]))
   }
 
   const cardNodes = playerHand.map((card, index) => {
     return (
-      <img key={index} src={card[0].image} alt="" />
+      <img key={index} src={card.image} />
     )
   })
 
