@@ -9,7 +9,7 @@ import Money from './components/Money';
 import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
 import styled from 'styled-components';
-const {getValue, getHandValue, blackjackGameLogic} = require('gameLogic')
+const {blackjackGameLogic} = require('./gameLogic')
 
 
 function App() {
@@ -17,27 +17,31 @@ function App() {
   const [deckId, setDeckId] = useState(null)
   const [dealersHand, setDealersHand] = useState([])
   const [playerHand, setPlayerHand] = useState([])
+  const [winner, setWinner] = useState('')
 
   // Fetch all cards
   useEffect(() => {
     fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
       .then(res => res.json())
       .then(data => setDeckId(data.deck_id))
-  }, [])
+    }, [])
 
-
-  // Fetches the starting hands
-  const handleClick = () => {
+    
+    // Fetches the starting hands
+    const handleClick = () => {
     fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
-      .then(res => res.json())
-      .then(data => {
+    .then(res => res.json())
+    .then(data => {
         setDealersHand([data.cards[0], data.cards[1]])
         setPlayerHand([data.cards[2], data.cards[3]])
       })
+      
+    }
 
 
-
-  }
+    useEffect(() => {
+      setWinner(blackjackGameLogic(dealersHand, playerHand))
+    }, [playerHand])
 
   const playerCardsNodes = playerHand.map((card, index) => {
     return (
@@ -90,7 +94,9 @@ function App() {
 
       </div >
 
+      <p>{winner}</p>
       </div>
+
 
 
 
