@@ -38,7 +38,7 @@ function App() {
 
   }
 
-  const playerCardNodes = playerHand.map((card, index) => {
+  const playerCardsNodes = playerHand.map((card, index) => {
     return (
       <Draggable>
         <div>
