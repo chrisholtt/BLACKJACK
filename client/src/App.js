@@ -8,6 +8,7 @@ import Level from './components/Level';
 import Money from './components/Money';
 import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
+import styled from 'styled-components';
 
 
 function App() {
@@ -45,13 +46,10 @@ function App() {
   })
 
   const dealerCardsNodes = dealersHand.map((card, index) => {
-      { if(index === 0) {<p>Back of card</p>} else {const showCard = {card}}}
     return (<div>
-      <img key={index} src={showCard.image}/>
+      <img key={index} src={card.image}/>
     </div>)
   })
-
-  "this should be feture only"
 
 
   return (
@@ -76,6 +74,10 @@ function App() {
 
 
         <button onClick={handleClick}>Draw card</button>
+        <DealrHand>
+        {dealerCardsNodes}
+        </DealrHand>
+        <hr/>
         {playerHand.length && playerCardsNodes}
       </div>
 
@@ -85,5 +87,11 @@ function App() {
 
   );
 }
+
+const DealrHand = styled.ul`
+display: flex;
+justify-content: center;
+flex-direction: row;
+`
 
 export default App;
