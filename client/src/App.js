@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
+import Draggable from "react-draggable"
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import Navbar from './containers/Navbar';
+import User from './components/User';
+import Level from './components/Level';
+import Money from './components/Money';
+import GameModes from './containers/GameModes';
+import PlayerModes from './containers/PlayerModes';
 
 
 function App() {
@@ -29,24 +37,46 @@ function App() {
 
   }
 
-
-
   const cardNodes = playerHand.map((card, index) => {
     return (
-      <img key={index} src={card.image} />
+      <Draggable>
+        <div>
+          <img key={index} src={card.image} />
+        </div>
+      </Draggable>
     )
   })
 
 
-
-
-
   return (
-    <div className="App">
+    <div className='app-wrapper'>
 
-      <button onClick={handleClick}>Draw card</button>
-      {playerHand.length && cardNodes}
+      <div className="app">
+        <Navbar />
+
+        <Routes>
+          <Route path="/user" element={<User />} />
+          <Route path="/level" element={<Level />} />
+          <Route path="/money" element={<Money />} />
+        </Routes>
+
+
+
+        <PlayerModes />
+
+        <GameModes />
+
+
+
+
+        <button onClick={handleClick}>Draw card</button>
+        {playerHand.length && cardNodes}
+      </div>
+
     </div>
+
+
+
   );
 }
 
