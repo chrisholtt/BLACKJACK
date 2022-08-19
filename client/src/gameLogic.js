@@ -25,3 +25,4 @@ const hand = [
 console.log(getHandValue(hand))
 
 module.exports = getValue;
+module.exports = getHandValue;
