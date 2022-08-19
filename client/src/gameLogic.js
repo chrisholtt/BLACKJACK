@@ -1,10 +1,10 @@
 const getValue = (card) => {
-    if (card === 'KING' || card === 'JACK' || card === 'QUEEN') {
+    if (card.value === 'KING' || card.value === 'JACK' || card.value === 'QUEEN') {
         return 10
-    } else if (card === 'ACE') {
+    } else if (card.value === 'ACE') {
         return 11
     } else {
-        return card
+        return Number(card.value)
     }
 }
 

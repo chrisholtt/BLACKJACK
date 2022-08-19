@@ -2,7 +2,9 @@ import React from 'react'
 
 const Game = () => {
     return (
-        <div>Game</div>
+        <div className='game-wrapper'>
+            IM a game
+        </div>
     )
 }
 

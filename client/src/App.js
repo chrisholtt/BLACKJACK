@@ -8,7 +8,9 @@ import Level from './components/Level';
 import Money from './components/Money';
 import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
+import Game from './components/Game'
 import styled from 'styled-components';
+const {blackjackGameLogic} = require('./gameLogic')
 
 
 function App() {
@@ -23,27 +25,31 @@ function App() {
     level: "",
     background: ""
   })
+  const [winner, setWinner] = useState('')
 
   // Fetch all cards
   useEffect(() => {
     fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
       .then(res => res.json())
       .then(data => setDeckId(data.deck_id))
-  }, [])
+    }, [])
 
-
-  // Fetches the starting hands
-  const handleClick = () => {
+    
+    // Fetches the starting hands
+    const handleClick = () => {
     fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
-      .then(res => res.json())
-      .then(data => {
+    .then(res => res.json())
+    .then(data => {
         setDealersHand([data.cards[0], data.cards[1]])
         setPlayerHand([data.cards[2], data.cards[3]])
       })
+      
+    }
 
 
-
-  }
+    useEffect(() => {
+      setWinner(blackjackGameLogic(dealersHand, playerHand))
+    }, [playerHand])
 
   const playerCardsNodes = playerHand.map((card, index) => {
     return (
@@ -68,9 +74,6 @@ function App() {
     <div className='app-wrapper'>
 
       <div className="app">
-        <Navbar />
-
-
         <Routes>
           <Route path="/user" element={<User />} />
           <Route path="/level" element={<Level />} />
@@ -79,24 +82,30 @@ function App() {
           <Route path="/players1" element={<GameModes />} />
           <Route path="/players2" element={<User />} />
           <Route path="/rules" element={<User />} />
+
+          <Route path="/game1" element={<Game />} />
+          <Route path="/game2" element={<Game />} />
         </Routes>
 
+        <Navbar />
 
 
         <PlayerModes />
 
-        {/* <GameModes /> */}
 
-        <button onClick={handleClick}>Draw card</button>
+
+
+        {/* <button onClick={handleClick}>Draw card</button>
         <DealrHand>
           {dealerCardsNodes}
         </DealrHand>
         <hr />
-  { playerHand.length && playerCardsNodes }
+        {playerHand.length && playerCardsNodes} */}
 
-      </div >
-
+      <p>{winner}</p>
       </div>
+    </div>
+
 
 
 

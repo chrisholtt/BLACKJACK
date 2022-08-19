@@ -1,16 +1,17 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import Game from '../components/Game';
+
 
 
 const GameModes = () => {
     return (
         <div className='game-mode-container'>
             <h1>Game Select</h1>
+            <Link to="/">close</Link>
             <div className="games">
-                <Game />
-                <Game />
-                <Game />
+                <Link to="/game1">Game 1</Link>
+                <Link to="/game2">Game 2</Link>
+                <Link to="/game3">Game 3</Link>
             </div>
         </div>
     )
