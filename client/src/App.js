@@ -9,6 +9,7 @@ import Money from './components/Money';
 import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
 import styled from 'styled-components';
+const {getValue, getHandValue, blackjackGameLogic} = require('gameLogic')
 
 
 function App() {
