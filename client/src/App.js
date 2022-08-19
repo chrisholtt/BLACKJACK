@@ -8,7 +8,6 @@ import Level from './components/Level';
 import Money from './components/Money';
 import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
-import styled from 'styled-components';
 
 
 function App() {
@@ -33,9 +32,12 @@ function App() {
         setDealersHand([data.cards[0], data.cards[1]])
         setPlayerHand([data.cards[2], data.cards[3]])
       })
+
+
+
   }
 
-  const playerCardsNodes = playerHand.map((card, index) => {
+  const cardNodes = playerHand.map((card, index) => {
     return (
       <Draggable>
         <div>
@@ -43,12 +45,6 @@ function App() {
         </div>
       </Draggable>
     )
-  })
-
-  const dealerCardsNodes = dealersHand.map((card, index) => {
-    return (<div>
-      <img key={index} src={card.image}/>
-    </div>)
   })
 
 
@@ -74,11 +70,7 @@ function App() {
 
 
         <button onClick={handleClick}>Draw card</button>
-        <DealrHand>
-        {dealerCardsNodes}
-        </DealrHand>
-        <hr/>
-        {playerHand.length && playerCardsNodes}
+        {playerHand.length && cardNodes}
       </div>
 
     </div>
@@ -87,11 +79,5 @@ function App() {
 
   );
 }
-
-const DealrHand = styled.ul`
-display: flex;
-justify-content: center;
-flex-direction: row;
-`
 
 export default App;
