@@ -18,6 +18,13 @@ function App() {
   const [deckId, setDeckId] = useState(null)
   const [dealersHand, setDealersHand] = useState([])
   const [playerHand, setPlayerHand] = useState([])
+  const [player, setPlayer] = useState({
+    name: "",
+    wallet: "",
+    avatar: "",
+    level: "",
+    background: ""
+  })
   const [winner, setWinner] = useState('')
 
   // Fetch all cards
