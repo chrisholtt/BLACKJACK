@@ -6,12 +6,12 @@ const PlayerModes = () => {
     return (
         <div className='play-modes-wrapper'>
             <div className='play-modes-container'>
-                <div className='play-mode'><Link to="/players1">1 Player</Link>
-                </div>
-                <div><Link to="/players2">2 Players</Link>
-                </div>
-                <div><Link to="/rules">Rules</Link>
-                </div>
+                <Link to="/players1"> <div className="play-mode">1 Player</div> </Link>
+
+                <Link to="/players2"><div className="play-mode">2 Players</div></Link>
+
+                <Link to="/rules"><div className="play-mode">Rules</div></Link>
+
             </div>
         </div>
 

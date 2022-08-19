@@ -36,6 +36,13 @@ img {
     height: 50px;
 }
 
+/* Play modes (player1, players2) */
+.play-mode {
+    width: 200px;
+    height: 170px;
+    border: 2px solid black;
+}
+
 .game-mode-container{
     display: flex;
     flex-direction: column;
@@ -58,6 +65,12 @@ img {
     height: 800px;
     background: red;
     z-index: 100;
+}
+
+/* Each player / dealers hand of cards */
+.hand {
+    display: flex;
+    flex-direction: row;
 }
 
 
