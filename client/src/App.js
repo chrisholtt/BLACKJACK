@@ -5,6 +5,7 @@ import './App.css';
 function App() {
 
   const [deckId, setDeckId] = useState(null)
+  const [dealersHand, setDealersHand] = useState([])
   const [playerHand, setPlayerHand] = useState([])
 
   // Fetch all cards
@@ -15,12 +16,19 @@ function App() {
   }, [])
 
 
+  // Fetches the starting hands
   const handleClick = () => {
-    fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+    fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
       .then(res => res.json())
-      // .then(data => setPlayerHand(prev => [...prev, data]))
-      .then(data => setPlayerHand([data.cards[0]]))
+      .then(data => {
+        setDealersHand([data.cards[0], data.cards[1]])
+        setPlayerHand([data.cards[2], data.cards[3]])
+      })
+
+
+
   }
+
 
 
   const cardNodes = playerHand.map((card, index) => {
