@@ -32,12 +32,9 @@ function App() {
         setDealersHand([data.cards[0], data.cards[1]])
         setPlayerHand([data.cards[2], data.cards[3]])
       })
-
-
-
   }
 
-  const cardNodes = playerHand.map((card, index) => {
+  const playerCardsNodes = playerHand.map((card, index) => {
     return (
       <Draggable>
         <div>
@@ -46,6 +43,15 @@ function App() {
       </Draggable>
     )
   })
+
+  const dealerCardsNodes = dealersHand.map((card, index) => {
+      { if(index === 0) {<p>Back of card</p>} else {const showCard = {card}}}
+    return (<div>
+      <img key={index} src={showCard.image}/>
+    </div>)
+  })
+
+  "this should be feture only"
 
 
   return (
@@ -70,7 +76,7 @@ function App() {
 
 
         <button onClick={handleClick}>Draw card</button>
-        {playerHand.length && cardNodes}
+        {playerHand.length && playerCardsNodes}
       </div>
 
     </div>
