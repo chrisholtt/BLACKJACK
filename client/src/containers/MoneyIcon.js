@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import CountUp from 'react-countup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 
 
-const MoneyIcon = () => {
-    const [money, setMoney] = useState(300)
+const MoneyIcon = ({ user, updateMoney }) => {
+
+    const [money, setMoney] = useState(user.money)
     const [newAmnt, setNewAmnt] = useState(null)
     const [counting, setCounting] = useState(false)
-
-
-    const handleClick = (newMoney) => {
-        setCounting(true)
-        setNewAmnt(newMoney)
-    }
 
     const handleEnd = () => {
         setCounting(false)
         setMoney(newAmnt)
     }
 
+    // When the users money value changes run this function
+    useEffect(() => {
+        setCounting(true)
+        setNewAmnt(user.money)
+
+    }, [user])
+
 
     return (
         <div className='nav-icon'>
             <div style={{ fontSize: '42px' }}>
-                💰
-            </div>
-            <button onClick={() => handleClick(800)}>Get cash </button>
 
-            {counting ? <CountUp start={money} end={newAmnt} onEnd={() => handleEnd()} /> : <h1 style={{ color: 'red' }}>{money}</h1>}
+            </div>
+            {counting ? <div><FontAwesomeIcon icon={faSackDollar} spin /> <CountUp start={money} end={newAmnt} onEnd={() => handleEnd()} /></div>
+                : <div><FontAwesomeIcon icon={faSackDollar} /> {money}</div>}
         </div>
     )
 }

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../spinWheel.css'
 
-const SpinWheel = () => {
+const SpinWheel = ({ user, updateMoney }) => {
     const [wheelSpin, setWheelSpin] = useState(0)
-    const [prize, setPrize] = useState('')
+    const [prize, setPrize] = useState(null)
 
     const getChoice = () => {
         const degrees = [
@@ -42,28 +42,33 @@ const SpinWheel = () => {
     }
 
     const prizes = [
-        '💰100💰',
-        '💰300💰',
-        '💰100💰',
-        '💩0💩',
-        '💰500💰',
-        '💩0💩',
-        '⭐️1000⭐️',
-        '💰100💰',
+        100,
+        300,
+        150,
+        0,
+        500,
+        1,
+        1000,
+        180,
     ]
-
 
 
 
     const handleClick = () => {
         // Spins the wheel and returns the prize 
-        const prize = getChoice()
-
-        // Waits 5 seconds to display prize
+        const prizeValue = getChoice()
+        // waits 5 secs till wheel stops to set prize
         setTimeout(() => {
-            setPrize(prize)
+            setPrize(prizeValue)
         }, 5000)
     }
+
+    // Whenever prize changes update users money
+    useEffect(() => {
+        updateMoney(prize)
+    }, [prize])
+
+
 
 
     return (
@@ -71,16 +76,16 @@ const SpinWheel = () => {
             <div style={{ position: 'relative' }}>
                 <button id="spin" onClick={handleClick}>Spin</button>
                 <span className="arrow">⬇</span>
-                <div className="prize-box">{prize}</div>
+                <div className="prize-box">{prize ? `⭐️${prize}⭐️` : 'Spin to win!'}</div>
                 <div className="wheel-container" style={{ transform: "rotate(" + wheelSpin + "deg)" }}>
-                    <div className="one">{prizes[0]}</div>
-                    <div className="two">{prizes[1]}</div>
-                    <div className="three">{prizes[2]}</div>
-                    <div className="four">{prizes[3]}</div>
-                    <div className="five">{prizes[4]}</div>
-                    <div className="six">{prizes[5]}</div>
-                    <div className="seven">{prizes[6]}</div>
-                    <div className="eight">{prizes[7]}</div>
+                    <div className="one">💰{prizes[0]}💰</div>
+                    <div className="two">💰{prizes[1]}💰</div>
+                    <div className="three">💰{prizes[2]}💰</div>
+                    <div className="four">💰{prizes[3]}💰</div>
+                    <div className="five">💰{prizes[4]}💰</div>
+                    <div className="six">💰{prizes[5]}💰</div>
+                    <div className="seven">💰{prizes[6]}💰</div>
+                    <div className="eight">💰{prizes[7]}💰</div>
                 </div>
             </div>
         </>

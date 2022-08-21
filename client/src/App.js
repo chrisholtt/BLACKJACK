@@ -15,17 +15,29 @@ import Rewards from './components/Rewards';
 
 function App() {
 
+  const [user, setUser] = useState({
+    name: 'Chris',
+    money: 0
+  })
+
+  const updateMoney = (amount) => {
+    const newAmount = user.money + amount
+    setUser(prev => {
+      return { ...prev, money: newAmount }
+    })
+  }
+
   return (
     <div className='app-wrapper'>
 
       <div className="app">
-        <Navbar />
+        <Navbar user={user} updateMoney={updateMoney} />
 
         <Routes>
           <Route path="/user" element={<User />} />
           <Route path="/level" element={<Level />} />
           <Route path="/money" element={<Money />} />
-          <Route path="/rewards" element={<Rewards />} />
+          <Route path="/rewards" element={<Rewards user={user} updateMoney={updateMoney} />} />
 
           <Route path="/players1" element={<GameModes />} />
           <Route path="/players2" element={<GameModes />} />
@@ -34,10 +46,6 @@ function App() {
           <Route path="/game1" element={<Game />} />
           <Route path="/game2" element={<Game />} />
         </Routes>
-
-
-
-
 
         <PlayerModes />
 

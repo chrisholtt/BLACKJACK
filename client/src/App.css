@@ -46,7 +46,7 @@ img {
     background: grey;
 }
 
-/* Play modes (player1, players2) */
+/* General wrapper for placing modals in the center */
 .wrapper {
     display: flex;
     align-items: center;
@@ -58,7 +58,6 @@ img {
     display: flex;
     align-items: center;
     place-items: center;
-
 }
 .play-mode {
     display: flex;
@@ -126,6 +125,34 @@ img {
     font-size: 24px;
 }
 
+/* REWARDS SECTION */
+/* WRAPS THE rewards display and rewards nav */
+.rewards-container{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+}
+
+.rewards-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 500px;
+    background: gray;
+}
+
+.rewards-display {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 700px;
+    height:500px;
+    border: 2px solid black;
+    background: gray;
+    z-index: 10;
+    border-radius: 10px;
+}
 
 
 
