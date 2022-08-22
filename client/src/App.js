@@ -11,6 +11,7 @@ import Game from './components/Game'
 import Rewards from './components/Rewards';
 import Rules from './components/Rules';
 import { getLevel } from './levels';
+import SettingsDial from './components/SettingsDial';
 // import styled from 'styled-components';
 
 
@@ -33,6 +34,11 @@ function App() {
     })
   }, [user.exp])
 
+  const [user, setUser] = useState({
+    name: 'Chris',
+    money: 100
+  })
+
 
   const updateMoney = (amount) => {
     const newAmount = user.money + amount
@@ -47,6 +53,9 @@ function App() {
     setUser(prev => {
       return { ...prev, exp: expToAdd }
     })
+
+  const wagerMoney = (amount) => {
+    user.money = amount
   }
 
   return (
@@ -65,12 +74,14 @@ function App() {
           <Route path="/players2" element={<GameModes />} />
           <Route path="/rules" element={<Rules />} />
 
-          <Route path="/game1" element={<Game />} />
+          <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerMoney={wagerMoney}/>} />
           <Route path="/game2" element={<Game />} />
         </Routes>
 
 
         <PlayerModes />
+
+        <SettingsDial />
 
       </div>
     </div>
