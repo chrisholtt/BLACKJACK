@@ -12,7 +12,7 @@ const Game = () => {
     const [playerHand, setPlayerHand] = useState([])
     const [splitHand, setSplitHand] = useState([])
     const [palyerStand, setPlayerStand] = useState(false)
-    const [splitStand, setSplitSantd] = useState(false)
+    const [splitStand, setSplitStand] = useState(false)
     const [player, setPlayer] = useState({
         name: "",
         wallet: "",
@@ -52,7 +52,7 @@ const Game = () => {
                 setPlayerHand([data.cards[2], data.cards[3]])
                 setSplitHand([])
                 setPlayerStand(false)
-                setSplitSantd(false)
+                setSplitStand(false)
                 splitButton()
             })
             if (playerHand[0].value === playerHand[1].value && playerHand[0].value ==="Ace") {
@@ -108,6 +108,13 @@ const Game = () => {
     // set player stand, allows dealer to play after
     const handleStandClick = () => {
         setPlayerStand(true);
+        if (getHandValue(dealersHand) < 17) {
+            dealerHit();
+        }
+    }
+
+    const handleSplitStandClick = () => {
+        setSplitStand(true);
         if (getHandValue(dealersHand) < 17) {
             dealerHit();
         }
@@ -181,6 +188,7 @@ const Game = () => {
                 {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
                 {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
                 {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></> }
+                {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></> }
                 </>}
 
                 {splitButton()}
