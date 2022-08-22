@@ -21,12 +21,12 @@ describe('game', function() {
 
 
     beforeEach(function(){
-        AceCard = "ACE"
-        KingCard = "KING"
-        QueenCard = "QUEEN"
-        JackCard = "JACK"
-        EightCard = 8
-        SevenCard = 7
+        AceCard.value = "ACE"
+        KingCard.value = "KING"
+        QueenCard.value = "QUEEN"
+        JackCard.value = "JACK"
+        EightCard.value = 8
+        SevenCard.value = 7
         dealerHand1 = [AceCard, QueenCard]
         dealerHand2 = [EightCard, AceCard]
         dealerHand3 = [QueenCard, SevenCard]

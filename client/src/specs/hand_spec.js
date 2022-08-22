@@ -17,12 +17,12 @@ describe('card', function() {
     let hand7 = []
 
     beforeEach(function() {
-        AceCard = "ACE"
-        KingCard = "KING"
-        QueenCard = "QUEEN"
-        JackCard = "JACK"
-        EightCard = 8
-        SevenCard = 7
+        AceCard.value = "ACE"
+        KingCard.value = "KING"
+        QueenCard.value = "QUEEN"
+        JackCard.value = "JACK"
+        EightCard.value = 8
+        SevenCard.value = 7
         hand1 = [AceCard, KingCard]
         hand2 = [AceCard, EightCard, SevenCard]
         hand3 = [EightCard, EightCard, SevenCard]

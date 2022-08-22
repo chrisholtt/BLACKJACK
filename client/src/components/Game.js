@@ -17,7 +17,7 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
 
-    // Fetch all cards
+    // Fetch all deckss
     useEffect(() => {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
             .then(res => res.json())
@@ -134,7 +134,7 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     const splitButton = () => {
         if (playerHand.length === 2) {
             if (playerHand[0].value === playerHand[1].value) {
-                return <button onClick={split}>Split?</button>
+                return <button onClick={split} data-testid='split-button'>Split?</button>
             }
         }
     }
@@ -208,8 +208,9 @@ const handlwage10 = () => {
         setWager(newWage)
     }
     }
-
-
+    
+    
+    // module.exports = {handleClick, split}
         return (
         <>
             <div className="game-wrapper">
@@ -217,49 +218,50 @@ const handlwage10 = () => {
 
             <div className='top-half'>
 
-                <div className="hand">
+                <div className="hand" data-testid='dealer-hand'>
                     {dealerCardsNodes}
                 </div>
 
-            <div className='wager'>
-                <button onClick={handlwage1}>wager 1</button>
-                <button onClick={handlwage2}>wager 2</button>
-                <button onClick={handlwage5}>wager 5</button>
-                <button onClick={handlwage10}>wager 10</button>
-                <button onClick={handlwage20}>wager 20</button>
-                <button onClick={handlwage50}>wager 50</button>
+            <div className='wager' >
+                <button onClick={handlwage1} data-testid='wager-buttons-1'>wager 1</button>
+                <button onClick={handlwage2} data-testid='wager-buttons-2'>wager 2</button>
+                <button onClick={handlwage5} data-testid='wager-buttons-5'>wager 5</button>
+                <button onClick={handlwage10} data-testid='wager-buttons-10'>wager 10</button>
+                <button onClick={handlwage20} data-testid='wager-buttons-20'>wager 20</button>
+                <button onClick={handlwage50} data-testid='wager-buttons-50'>wager 50</button>
             </div>
             </div>
-                <p> your wager is: {wager}</p>
+                <p data-testid='wager-amount' id='wager-amount'> Your wager is: {wager}</p>
                 <hr />
 
-                <div className="hand">
+                <div className="hand" data-testid='player-hand'>
                     {playerCardsNodes}
                 </div>
 
-                <div className="hand">
+                <div className="hand" data-testid='split-hand'>
                     {splitCardsNodes}
                 </div>
 
-                {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>}
+                {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick} data-testid='draw-button'>Draw card</button>}
 
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
-                {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
-                {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
-                {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></> }
-                {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></> }
+                {playerHand.length ? <button onClick={handleHitClick} data-testid='hit-button'>Hit</button> : <></> }
+                {splitHand.length ? <button onClick={handleSplitHit} data-testid='split-hit-button'>Hit second hand</button> : <></>}
+                {playerHand.length ? <button onClick={handleStandClick} data-testid='stand-button'>Stand</button> : <></> }
+                {splitHand.length ? <button onClick={handleSplitStandClick} data-testid='split-stand-button'>Stand split hand</button> : <></> }
                 </>}
 
                 {splitButton()}
 
 
-                {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
-                {palyerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
-                {splitHand.length? getHandValue(splitHand) : <></>}
+                {palyerStand ?<p data-testid='winner'>{winner}</p>:<p data-testid='hand-value'>{getHandValue(playerHand)}</p>}
+                {palyerStand && splitHand.length ?<p data-testid='split-winner'>{splitWinner}</p>:<></>}
+                {splitHand.length? <p data-testid='split-hand-value'>getHandValue(splitHand)</p> : <></>}
             </div>
 
         </>
     )
+
 
 }
 
