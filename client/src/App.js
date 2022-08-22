@@ -18,7 +18,7 @@ function App() {
 
   const [user, setUser] = useState({
     name: 'Chris',
-    money: 0
+    money: 100
   })
 
 
@@ -27,6 +27,10 @@ function App() {
     setUser(prev => {
       return { ...prev, money: newAmount }
     })
+  }
+
+  const wagerMoney = (amount) => {
+    user.money = amount
   }
 
   return (
@@ -45,7 +49,7 @@ function App() {
           <Route path="/players2" element={<GameModes />} />
           <Route path="/rules" element={<Rules />} />
 
-          <Route path="/game1" element={<Game />} />
+          <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerMoney={wagerMoney}/>} />
           <Route path="/game2" element={<Game />} />
         </Routes>
 

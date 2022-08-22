@@ -154,3 +154,22 @@ img {
     border-radius: 10px;
     overflow: scroll;
 }
+
+.top-half {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wager {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-right: 30px;
+}
+
+.wager > button {
+    width: 70px;
+    margin-bottom: 5px;
+}

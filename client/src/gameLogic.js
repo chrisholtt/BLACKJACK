@@ -22,7 +22,7 @@ const blackjackGameLogic = (dealerHand, playerHand) => {
     if (dealerTotal === playerTotal) {
         return "Draw"
     } else if (dealerTotal > 21) {
-        return `Dealer bust with ${dealerTotal}`
+        return `Dealer bust`
     } else if ( playerTotal > 21) {
         return `Player bust with ${playerTotal}`
     } else if (dealerTotal > playerTotal) {
