@@ -11,7 +11,6 @@ const Game = () => {
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
     const [palyerStand, setPlayerStand] = useState(false)
-    const [dealerStand, setDealerStand] = useState(false)
     const [player, setPlayer] = useState({
         name: "",
         wallet: "",
@@ -42,7 +41,6 @@ const Game = () => {
                 setDealersHand([data.cards[0], data.cards[1]])
                 setPlayerHand([data.cards[2], data.cards[3]])
                 setPlayerStand(false)
-                setDealerStand(false)
             })
         }
         
@@ -80,7 +78,9 @@ const Game = () => {
         } 
     }
     
+    // useEffect (() => {
     
+    // }, [palyerStand])
 
     
     const dealerHit = () => {
@@ -93,11 +93,9 @@ const Game = () => {
     }
     
     const handleStandClick = () => {
-        setPlayerStand(true)
-        if (getHandValue(dealersHand) < 17 && playerHand.length > 2 ) {
-            dealerHit()
-        } else {
-            setDealerStand(true)
+        setPlayerStand(true);
+        if (getHandValue(dealersHand) < 17) {
+            dealerHit();
         }
     }
 
@@ -125,7 +123,7 @@ const Game = () => {
                 </>}
 
 
-                {palyerStand &&  dealerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
+                {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
             </div>
         </>
     )
