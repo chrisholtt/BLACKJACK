@@ -102,8 +102,14 @@ const Game = () => {
     }
 
     const split = () => {
-        setPlayerHand(playerHand[0])
-        setSplitHand(playerHand[1])
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
+        .then(res => res.json())
+        .then(data => {
+            const newHand = [playerHand[0], data.cards[0]]
+            const newSplitHand = [playerHand[1], data.cards[1]]
+            setPlayerHand(newHand)
+            setSplitHand(newSplitHand)
+        })
     }
     
     const splitButton = () => {
@@ -114,7 +120,6 @@ const Game = () => {
         }
     }
     
-    console.log(playerHand[0].value, playerHand[1].value);
 
     const splitCardsNodes = splitHand.map((card, index) => {
         return (
@@ -123,6 +128,15 @@ const Game = () => {
             </Draggable>
         )
     })
+
+    const handleSplitHit = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+        .then(res => res.json())
+        .then(data => {
+            const copyHand = [...splitHand, data.cards[0]]
+            setSplitHand(copyHand)
+        })
+    }
 
 
         return (
@@ -149,6 +163,7 @@ const Game = () => {
 
                 {palyerStand ? <p>Play another round?</p> : <>
                 {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
+                {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
                 {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></> }
                 </>}
 
@@ -156,6 +171,7 @@ const Game = () => {
 
 
                 {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
+                {splitHand.length ? <p>{getHandValue(splitHand)}</p> : <></>}
             </div>
         </>
     )
