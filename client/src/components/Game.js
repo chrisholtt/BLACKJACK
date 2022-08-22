@@ -39,7 +39,7 @@ const Game = () => {
     //auto stops if split hand has more than 21 points
     useEffect(() => {
         if (getHandValue(playerHand) > 21) {
-            setSplitSantd(true)
+            setSplitStand(true)
         }}, [splitHand])
 
         
