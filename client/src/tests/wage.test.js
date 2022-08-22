@@ -18,8 +18,16 @@ describe("wager", () => {
     })
     it('should be able to add to wager amout', () => {
         const wager = game.getByTestId("wager-amount")
+        expect(wager.textContent).toEqual("Your wager is: 10")
+    })
+    it('shoud give player money upon winning', () => {
+        const aceCard = {value: "Ace"}
+        const queenCard = {value: "Queen"}
+        const wager = game.getByTestId("wager-amount")
+        const playerHand = [aceCard, queenCard]
+        const dealerHand = [queenCard, queenCard]
         const addTenToWager = game.getByTestId("wager-buttons-10")
         fireEvent.click(addTenToWager)
-        expect(wager.textContent).toEqual("Your wager is: 10")
+        // expect(something)
     })
 })
