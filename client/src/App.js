@@ -47,6 +47,7 @@ function App() {
           <Route path="/game2" element={<Game />} />
         </Routes>
 
+
         <PlayerModes />
 
       </div>

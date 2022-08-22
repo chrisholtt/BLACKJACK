@@ -152,6 +152,7 @@ img {
     background: gray;
     z-index: 10;
     border-radius: 10px;
+    overflow: scroll;
 }
 
 

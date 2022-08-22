@@ -10,7 +10,9 @@ const Rewards = ({ user, updateMoney }) => {
             <div className='rewards-container'>
                 <Link to="/">❌</Link>
                 <div className="rewards-display">
+
                     <SpinWheel user={user} updateMoney={updateMoney} />
+
                 </div>
 
                 <div className="rewards-nav">
