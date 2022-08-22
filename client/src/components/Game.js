@@ -48,6 +48,7 @@ const Game = () => {
         setWinner(blackjackGameLogic(dealersHand, playerHand))
     }, [playerHand])
 
+    
     const dealerCardsNodes = dealersHand.map((card, index) => {
         return (
             <div className='hand' key={index}>
@@ -63,6 +64,7 @@ const Game = () => {
             </Draggable>
         )
     })
+
     
     const handleHitClick = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
@@ -71,10 +73,30 @@ const Game = () => {
             const copyHand = [...playerHand, data.cards[0]]
             setPlayerHand(copyHand)
         })
+        if (getHandValue(playerHand) >21) {
+            setPlayerStand(true)
+        } 
     }
+    
+    // useEffect (() => {
+    
+    // }, [palyerStand])
 
+    
+    const dealerHit = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+        .then(res => res.json())
+        .then(data => {
+            const copyHand = [...dealersHand, data.cards[0]]
+            setDealersHand(copyHand)
+        })
+    }
+    
     const handleStandClick = () => {
-        setPlayerStand(true)
+        setPlayerStand(true);
+        if (getHandValue(dealersHand) < 17) {
+            dealerHit();
+        }
     }
 
 
@@ -101,7 +123,7 @@ const Game = () => {
                 </>}
 
 
-                {palyerStand?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
+                {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
             </div>
         </>
     )
