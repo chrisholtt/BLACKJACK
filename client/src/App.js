@@ -9,6 +9,7 @@ import GameModes from './containers/GameModes';
 import PlayerModes from './containers/PlayerModes';
 import Game from './components/Game'
 import Rewards from './components/Rewards';
+import Rules from './components/Rules';
 // import styled from 'styled-components';
 
 
@@ -41,7 +42,7 @@ function App() {
 
           <Route path="/players1" element={<GameModes />} />
           <Route path="/players2" element={<GameModes />} />
-          <Route path="/rules" element={<User />} />
+          <Route path="/rules" element={<Rules />} />
 
           <Route path="/game1" element={<Game />} />
           <Route path="/game2" element={<Game />} />
