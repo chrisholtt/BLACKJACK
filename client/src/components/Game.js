@@ -40,6 +40,7 @@ const Game = () => {
             .then(data => {
                 setDealersHand([data.cards[0], data.cards[1]])
                 setPlayerHand([data.cards[2], data.cards[3]])
+                setPlayerStand(false)
             })
         }
         
@@ -76,7 +77,8 @@ const Game = () => {
         setPlayerStand(true)
     }
 
-    return (
+
+        return (
         <>
             <div className="game-wrapper">
                 <Link to="/">CLOSE</Link>
@@ -91,10 +93,14 @@ const Game = () => {
                 <div className="hand">
                     {playerCardsNodes}
                 </div>
+                {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>}
+
+                {playerHand.length ? <></> : {palyerStand ? <p>Play another round?</p> : <>
                 <button onClick={handleHitClick}>Hit</button>
                 <button onClick={handleStandClick}>Stand</button>
+                </>}}
 
-                <button onClick={handleClick}>Draw card</button>
+
                 {palyerStand?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
             </div>
         </>
