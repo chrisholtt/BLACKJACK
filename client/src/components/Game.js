@@ -11,6 +11,7 @@ const Game = () => {
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
     const [palyerStand, setPlayerStand] = useState(false)
+    const [dealerStand, setDealerStand] = useState(false)
     const [player, setPlayer] = useState({
         name: "",
         wallet: "",
@@ -41,6 +42,7 @@ const Game = () => {
                 setDealersHand([data.cards[0], data.cards[1]])
                 setPlayerHand([data.cards[2], data.cards[3]])
                 setPlayerStand(false)
+                setDealerStand(false)
             })
         }
         
@@ -48,6 +50,7 @@ const Game = () => {
         setWinner(blackjackGameLogic(dealersHand, playerHand))
     }, [playerHand])
 
+    
     const dealerCardsNodes = dealersHand.map((card, index) => {
         return (
             <div className='hand' key={index}>
@@ -63,6 +66,7 @@ const Game = () => {
             </Draggable>
         )
     })
+
     
     const handleHitClick = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
@@ -71,10 +75,30 @@ const Game = () => {
             const copyHand = [...playerHand, data.cards[0]]
             setPlayerHand(copyHand)
         })
+        if (getHandValue(playerHand) >21) {
+            setPlayerStand(true)
+        } 
     }
+    
+    
 
+    
+    const dealerHit = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+        .then(res => res.json())
+        .then(data => {
+            const copyHand = [...dealersHand, data.cards[0]]
+            setDealersHand(copyHand)
+        })
+    }
+    
     const handleStandClick = () => {
         setPlayerStand(true)
+        if (getHandValue(dealersHand) < 17 && playerHand.length > 2 ) {
+            dealerHit()
+        } else {
+            setDealerStand(true)
+        }
     }
 
 
@@ -101,7 +125,7 @@ const Game = () => {
                 </>}
 
 
-                {palyerStand?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
+                {palyerStand &&  dealerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
             </div>
         </>
     )
