@@ -34,10 +34,7 @@ function App() {
     })
   }, [user.exp])
 
-  const [user, setUser] = useState({
-    name: 'Chris',
-    money: 100
-  })
+
 
 
   const updateMoney = (amount) => {
@@ -53,6 +50,7 @@ function App() {
     setUser(prev => {
       return { ...prev, exp: expToAdd }
     })
+  }
 
   const wagerMoney = (amount) => {
     user.money = amount
@@ -74,7 +72,7 @@ function App() {
           <Route path="/players2" element={<GameModes />} />
           <Route path="/rules" element={<Rules />} />
 
-          <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerMoney={wagerMoney}/>} />
+          <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerMoney={wagerMoney} />} />
           <Route path="/game2" element={<Game />} />
         </Routes>
 
@@ -87,6 +85,7 @@ function App() {
     </div>
   );
 }
+
 
 
 export default App;
