@@ -6,22 +6,16 @@ const { blackjackGameLogic, getHandValue } = require('../gameLogic')
 
 
 
-const Game = () => {
+const Game = ({user, updateMoney, wagerMoney}) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
     const [splitHand, setSplitHand] = useState([])
     const [palyerStand, setPlayerStand] = useState(false)
     const [splitStand, setSplitStand] = useState(false)
-    const [player, setPlayer] = useState({
-        name: "",
-        wallet: "",
-        avatar: "",
-        level: "",
-        background: ""
-    })
     const [winner, setWinner] = useState('')
     const [splitWinner, setSplitWinner] = useState('')
+    const [wager, setWager] = useState(0)
 
     // Fetch all cards
     useEffect(() => {
@@ -53,6 +47,7 @@ const Game = () => {
                 setSplitHand([])
                 setPlayerStand(false)
                 setSplitStand(false)
+                setWager(0)
                 splitButton()
             })
             if (playerHand[0].value === playerHand[1].value && playerHand[0].value ==="Ace") {
@@ -161,17 +156,78 @@ const Game = () => {
         })
     }
 
+    //wager buttons
+    const handlwage1 = () => {
+        if(user.money > 0) {
+            const newAmount = user.money - 1
+            const newWage = wager + 1
+            wagerMoney(newAmount)
+            setWager(newWage)
+        }
+    }
+    const handlwage2 = () => {
+        if(user.money > 1) {
+            const newAmount = user.money - 2
+            const newWage = wager + 2
+            wagerMoney(newAmount)
+            setWager(newWage)
+        }
+    }
+    const handlwage5 = () => {
+    if(user.money > 4) {
+        const newAmount = user.money - 5
+        const newWage = wager + 5
+        wagerMoney(newAmount)
+        setWager(newWage)
+    }
+}
+const handlwage10 = () => {
+        if(user.money > 9) {
+            const newAmount = user.money - 10
+            const newWage = wager + 10
+            wagerMoney(newAmount)
+            setWager(newWage)
+        }
+    }
+    const handlwage20 = () => {
+        if(user.money >= 20) {
+            const newAmount = user.money - 20
+            const newWage = wager + 20
+            wagerMoney(newAmount)
+            setWager(newWage)
+        }
+    }
+    const handlwage50 = () => {
+    if(user.money >= 50) {
+        const newAmount = user.money - 50
+        const newWage = wager + 50
+        wagerMoney(newAmount)
+        setWager(newWage)
+    }
+    }
+
 
         return (
         <>
             <div className="game-wrapper">
                 <Link to="/">CLOSE</Link>
 
+            <div className='top-half'>
 
                 <div className="hand">
                     {dealerCardsNodes}
                 </div>
 
+            <div className='wager'>
+                <button onClick={handlwage1}>wager 1</button>
+                <button onClick={handlwage2}>wager 2</button>
+                <button onClick={handlwage5}>wager 5</button>
+                <button onClick={handlwage10}>wager 10</button>
+                <button onClick={handlwage20}>wager 20</button>
+                <button onClick={handlwage50}>wager 50</button>
+            </div>
+            </div>
+                <p> your wager is: {wager}</p>
                 <hr />
 
                 <div className="hand">
@@ -198,6 +254,7 @@ const Game = () => {
                 {palyerStand && !splitHand.length ?<p>{splitWinner}</p>:<></>}
                 {splitHand.length? getHandValue(splitHand) : <></>}
             </div>
+
         </>
     )
 
