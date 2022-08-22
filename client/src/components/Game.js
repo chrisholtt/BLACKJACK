@@ -100,11 +100,14 @@ const Game = ({user, updateMoney, wagerMoney}) => {
         })
     }
     
-    // set player stand, allows dealer to play after
+    // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
         setPlayerStand(true);
         if (getHandValue(dealersHand) < 17) {
             dealerHit();
+        }
+        if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust"){
+            updateMoney(wager * 2)
         }
     }
 
@@ -251,7 +254,7 @@ const handlwage10 = () => {
 
 
                 {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
-                {palyerStand && !splitHand.length ?<p>{splitWinner}</p>:<></>}
+                {palyerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
                 {splitHand.length? getHandValue(splitHand) : <></>}
             </div>
 
