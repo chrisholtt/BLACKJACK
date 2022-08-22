@@ -3,9 +3,6 @@ import Draggable from "react-draggable"
 import { Link } from "react-router-dom";
 const { blackjackGameLogic, getHandValue } = require('../gameLogic')
 
-
-
-
 const Game = ({user, updateMoney, wagerMoney}) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
@@ -16,6 +13,7 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     const [winner, setWinner] = useState('')
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
+    const [inPlay, setInPlay] = useState(false)
 
     // Fetch all cards
     useEffect(() => {
@@ -220,7 +218,7 @@ const handlwage10 = () => {
                 <div className="hand">
                     {dealerCardsNodes}
                 </div>
-
+            {playerHand.length ? 
             <div className='wager'>
                 <button onClick={handlwage1}>wager 1</button>
                 <button onClick={handlwage2}>wager 2</button>
@@ -229,6 +227,8 @@ const handlwage10 = () => {
                 <button onClick={handlwage20}>wager 20</button>
                 <button onClick={handlwage50}>wager 50</button>
             </div>
+            : <></>
+            }
             </div>
                 <p> your wager is: {wager}</p>
                 <hr />
