@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import CountUp from 'react-countup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
-import Badge from '@mui/material/Badge';
 
 
 
