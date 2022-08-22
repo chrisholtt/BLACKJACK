@@ -3,8 +3,6 @@ import CountUp from 'react-countup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 
-
-
 const MoneyIcon = ({ user }) => {
 
     const [money, setMoney] = useState(user.money)
