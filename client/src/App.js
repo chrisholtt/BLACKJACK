@@ -18,7 +18,22 @@ import SettingsDial from './components/SettingsDial';
 
 function App() {
 
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")))
+  const retrieveUser = () => {
+    const localUser = JSON.parse(localStorage.getItem("user"))
+    if (localUser) {
+      return localUser
+    }
+
+    const noLocalUser = {
+      name: 'User',
+      money: 100,
+      exp: 120
+    }
+    return noLocalUser
+  }
+  // const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")))
+  const [user, setUser] = useState(retrieveUser())
+
 
 
   // On user change save in local storage
