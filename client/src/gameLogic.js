@@ -41,6 +41,5 @@ const hand = [
     5
 ]
 
-console.log(getHandValue(hand))
 
 module.exports = {getValue, getHandValue, blackjackGameLogic};
