@@ -20,6 +20,7 @@ function App() {
     money: 0
   })
 
+
   const updateMoney = (amount) => {
     const newAmount = user.money + amount
     setUser(prev => {
