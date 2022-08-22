@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Draggable from "react-draggable"
 import { Link } from "react-router-dom";
-const { blackjackGameLogic } = require('../gameLogic')
+const { blackjackGameLogic, getHandValue } = require('../gameLogic')
 
 
 
@@ -10,6 +10,7 @@ const Game = () => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
+    const [palyerStand, setPlayerStand] = useState(false)
     const [player, setPlayer] = useState({
         name: "",
         wallet: "",
@@ -26,6 +27,12 @@ const Game = () => {
             .then(data => setDeckId(data.deck_id))
     }, [])
 
+    // auto stops when player has more than 21 points
+    useEffect(() => {
+        if (getHandValue(playerHand) > 21) {
+            setPlayerStand(true)
+        }}, [playerHand])
+
     // Fetches the starting hands
     const handleClick = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
@@ -34,9 +41,9 @@ const Game = () => {
                 setDealersHand([data.cards[0], data.cards[1]])
                 setPlayerHand([data.cards[2], data.cards[3]])
             })
-    }
-
-    useEffect(() => {
+        }
+        
+        useEffect(() => {
         setWinner(blackjackGameLogic(dealersHand, playerHand))
     }, [playerHand])
 
@@ -55,6 +62,19 @@ const Game = () => {
             </Draggable>
         )
     })
+    
+    const handleHitClick = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+        .then(res => res.json())
+        .then(data => {
+            const copyHand = [...playerHand, data.cards[0]]
+            setPlayerHand(copyHand)
+        })
+    }
+
+    const handleStandClick = () => {
+        setPlayerStand(true)
+    }
 
     return (
         <>
@@ -71,9 +91,11 @@ const Game = () => {
                 <div className="hand">
                     {playerCardsNodes}
                 </div>
+                <button onClick={handleHitClick}>Hit</button>
+                <button onClick={handleStandClick}>Stand</button>
 
                 <button onClick={handleClick}>Draw card</button>
-                <p>{winner}</p>
+                {palyerStand?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
             </div>
         </>
     )
