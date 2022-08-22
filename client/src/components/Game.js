@@ -22,7 +22,7 @@ const Game = () => {
 
     // Fetch all cards
     useEffect(() => {
-        fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+        fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
             .then(res => res.json())
             .then(data => setDeckId(data.deck_id))
     }, [])
