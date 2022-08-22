@@ -10,6 +10,7 @@ import PlayerModes from './containers/PlayerModes';
 import Game from './components/Game'
 import Rewards from './components/Rewards';
 import Rules from './components/Rules';
+import SettingsDial from './components/SettingsDial';
 // import styled from 'styled-components';
 
 
@@ -55,6 +56,8 @@ function App() {
 
 
         <PlayerModes />
+
+        <SettingsDial />
 
       </div>
     </div>
