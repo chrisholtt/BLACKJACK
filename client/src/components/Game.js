@@ -95,10 +95,10 @@ const Game = () => {
                 </div>
                 {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>}
 
-                {playerHand.length ? <></> : {palyerStand ? <p>Play another round?</p> : <>
-                <button onClick={handleHitClick}>Hit</button>
-                <button onClick={handleStandClick}>Stand</button>
-                </>}}
+                {palyerStand ? <p>Play another round?</p> : <>
+                {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
+                {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></> }
+                </>}
 
 
                 {palyerStand?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
