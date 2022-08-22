@@ -2,16 +2,8 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-}
-
-.play-modes-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.play-modes-container {
-    display: flex;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
 }
 
 .app-wrapper {
@@ -21,48 +13,96 @@
 }
 
 .app {
+    position: relative;
     width: 1000px;
     height: 800px;
     border: 2px solid black;
+    overflow: hidden;
+    background: greenyellow;
 }
 
 img {
     height: 200px;
 }
 
+/* NAVBAR STUFF */
 .navbar{
-    background: red;
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(63, 63, 63, 0.548);
     width: 1000px;
-    height: 50px;
+    height: 100px;
 }
 
-/* Play modes (player1, players2) */
+
+/* Wrapper for each icon in the navbar */
+.nav-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 150px;
+    background: grey;
+}
+
+/* General wrapper for placing modals in the center */
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+.play-modes-container {
+    display: flex;
+    align-items: center;
+    place-items: center;
+}
 .play-mode {
+    display: flex;
     width: 200px;
     height: 170px;
+    margin: 30px;
     border: 2px solid black;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .game-mode-container{
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 700px;
     height:500px;
     border: 2px solid black;
     background: gray;
     position: absolute;
     z-index: 10;
+    border-radius: 10px;
 }
 
-/* Selecting a game menu */
+/* Selecting a game from the menu */
 .games{
     display: flex;
+}
+
+/* Each game as its displayed in the games menu */
+.game-icon{
+    width: 200px;
+    height: 180px;
+    margin: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
 }
 
 .game-wrapper {
     position: absolute;
     width: 1000px;
     height: 800px;
+    top: 0;
     background: red;
     z-index: 100;
 }
@@ -72,5 +112,49 @@ img {
     display: flex;
     flex-direction: row;
 }
+
+/* LEVEL ICON */
+.level-icon{
+    font-size: 62px;
+    position: relative;
+}
+.level-icon h1 {
+    position: absolute;
+    top: 26px;
+    left: 18px;
+    font-size: 24px;
+}
+
+/* REWARDS SECTION */
+/* WRAPS THE rewards display and rewards nav */
+.rewards-container{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+}
+
+.rewards-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 500px;
+    background: gray;
+}
+
+.rewards-display {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 700px;
+    height:500px;
+    border: 2px solid black;
+    background: gray;
+    z-index: 10;
+    border-radius: 10px;
+    overflow: scroll;
+}
+
+
 
 

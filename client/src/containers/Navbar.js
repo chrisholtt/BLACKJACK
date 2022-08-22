@@ -1,13 +1,18 @@
 import React from 'react'
-import { Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import UserIcon from './UserIcon';
+import LevelIcon from './LevelIcon';
+import MoneyIcon from './MoneyIcon';
+import RewardsIcon from './RewardsIcon';
 
+const Navbar = ({ user, updateMoney }) => {
 
-const Navbar = () => {
     return (
         <div className='navbar'>
-            <Link to="/user">User</Link>
-            <Link to="/level">level</Link>
-            <Link to="/money">money</Link>
+            <Link to="/user"><UserIcon /></Link>
+            <Link to="/level"><LevelIcon /></Link>
+            <Link to="/money"><MoneyIcon user={user} updateMoney={updateMoney} /></Link>
+            <Link to="/rewards"><RewardsIcon /></Link>
         </div>
     )
 }
