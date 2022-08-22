@@ -3,7 +3,7 @@ import SpinWheel from '../containers/SpinWheel'
 import { Link } from "react-router-dom";
 
 
-const Rewards = ({ user, updateMoney }) => {
+const Rewards = ({ user, updateMoney, handleExpGain }) => {
     return (
         <div className='wrapper'>
 
@@ -11,7 +11,7 @@ const Rewards = ({ user, updateMoney }) => {
                 <Link to="/">❌</Link>
                 <div className="rewards-display">
 
-                    <SpinWheel user={user} updateMoney={updateMoney} />
+                    <SpinWheel user={user} updateMoney={updateMoney} handleExpGain={handleExpGain} />
 
                 </div>
 

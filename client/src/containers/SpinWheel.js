@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../spinWheel.css'
 
-const SpinWheel = ({ user, updateMoney }) => {
+const SpinWheel = ({ user, updateMoney, handleExpGain }) => {
     const [wheelSpin, setWheelSpin] = useState(0)
     const [prize, setPrize] = useState(null)
 
@@ -60,6 +60,7 @@ const SpinWheel = ({ user, updateMoney }) => {
         // waits 5 secs till wheel stops to set prize
         setTimeout(() => {
             setPrize(prizeValue)
+            handleExpGain(25)
         }, 5000)
     }
 
@@ -76,7 +77,14 @@ const SpinWheel = ({ user, updateMoney }) => {
             <div style={{ position: 'relative' }}>
                 <button id="spin" onClick={handleClick}>Spin</button>
                 <span className="arrow">⬇</span>
-                <div className="prize-box">{prize ? `⭐️${prize}⭐️` : 'Spin to win!'}</div>
+                <div className="prize-box">{prize ?
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        ⭐️{prize}⭐️
+                        <h6>+25xp</h6>
+                    </div>
+                    :
+                    'Spin to win!'}
+                </div>
                 <div className="wheel-container" style={{ transform: "rotate(" + wheelSpin + "deg)" }}>
                     <div className="one">💰{prizes[0]}💰</div>
                     <div className="two">💰{prizes[1]}💰</div>
