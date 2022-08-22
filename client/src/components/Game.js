@@ -10,6 +10,7 @@ const Game = () => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
+    const [splitHand, setSplitHand] = useState([])
     const [palyerStand, setPlayerStand] = useState(false)
     const [player, setPlayer] = useState({
         name: "",
@@ -41,6 +42,7 @@ const Game = () => {
                 setDealersHand([data.cards[0], data.cards[1]])
                 setPlayerHand([data.cards[2], data.cards[3]])
                 setPlayerStand(false)
+                splitButton()
             })
         }
         
@@ -64,7 +66,7 @@ const Game = () => {
             </Draggable>
         )
     })
-
+    
     
     const handleHitClick = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
@@ -99,6 +101,29 @@ const Game = () => {
         }
     }
 
+    const split = () => {
+        setPlayerHand(playerHand[0])
+        setSplitHand(playerHand[1])
+    }
+    
+    const splitButton = () => {
+        if (playerHand.length === 2) {
+            if (playerHand[0].value === playerHand[1].value) {
+                return <button onClick={split}>Split?</button>
+            }
+        }
+    }
+    
+    console.log(playerHand[0].value, playerHand[1].value);
+
+    const splitCardsNodes = splitHand.map((card, index) => {
+        return (
+            <Draggable>
+                <img key={index} src={card.image} alt="playing_card" />
+            </Draggable>
+        )
+    })
+
 
         return (
         <>
@@ -115,12 +140,19 @@ const Game = () => {
                 <div className="hand">
                     {playerCardsNodes}
                 </div>
+
+                <div className="hand">
+                    {splitCardsNodes}
+                </div>
+
                 {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>}
 
                 {palyerStand ? <p>Play another round?</p> : <>
                 {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
                 {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></> }
                 </>}
+
+                {splitButton()}
 
 
                 {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
