@@ -117,12 +117,46 @@ img {
 .level-icon{
     font-size: 62px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .level-icon h1 {
     position: absolute;
-    top: 26px;
-    left: 18px;
-    font-size: 24px;
+    top: 18px;
+    left: 24px;
+    font-size: 32px;
+}
+.level-changing {
+    color: yellow;
+    transition: all 1000ms ease-in-out;
+}
+.level-changed {
+    color: white;
+    transition: all 1000ms ease-in-out;
+}
+
+.level-progress-wrapper {
+    position: absolute;
+    left: -12px;
+    bottom: -10px;
+    width: 100px;
+    height: 14px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.level-progress{
+    position: absolute;
+    border-radius: 0px 10px 10px 0px;
+    height: 14px;
+    background: blue;
+}
+
+/* MONEY ICON */
+.money-icon {
+    font-size: 36px;
 }
 
 /* REWARDS SECTION */

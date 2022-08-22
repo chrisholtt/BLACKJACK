@@ -23,10 +23,12 @@ const MoneyIcon = ({ user }) => {
 
     return (
         <div className='nav-icon'>
-            <div style={{ fontSize: '42px' }}>
+            <div className='money-icon'>
+                {counting ?
+                    <div><FontAwesomeIcon icon={faSackDollar} spin /> <CountUp start={money} end={newAmnt} onEnd={() => handleEnd()} /></div>
+                    :
+                    <div><FontAwesomeIcon icon={faSackDollar} /> {money}</div>}
             </div>
-            {counting ? <div><FontAwesomeIcon icon={faSackDollar} spin /> <CountUp start={money} end={newAmnt} onEnd={() => handleEnd()} /></div>
-                : <div><FontAwesomeIcon icon={faSackDollar} /> {money}</div>}
         </div>
     )
 }
