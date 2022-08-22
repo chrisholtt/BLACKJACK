@@ -3,7 +3,7 @@ import Draggable from "react-draggable"
 import { Link } from "react-router-dom";
 const { blackjackGameLogic, getHandValue } = require('../gameLogic')
 
-const Game = ({user, updateMoney, wagerMoney}) => {
+const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
@@ -107,6 +107,9 @@ const Game = ({user, updateMoney, wagerMoney}) => {
         if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust"){
             updateMoney(wager * 2)
         }
+         else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins") {
+            wagerLost(wager);
+        }
     }
 
     const handleSplitStandClick = () => {
@@ -160,49 +163,49 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     //wager buttons
     const handlwage1 = () => {
         if(user.money > 0) {
-            const newAmount = user.money - 1
+            // const newAmount = user.money - 1
             const newWage = wager + 1
-            wagerMoney(newAmount)
+            // wagerMoney(newAmount)
             setWager(newWage)
         }
     }
     const handlwage2 = () => {
         if(user.money > 1) {
-            const newAmount = user.money - 2
+            // const newAmount = user.money - 2
             const newWage = wager + 2
-            wagerMoney(newAmount)
+            // wagerMoney(newAmount)
             setWager(newWage)
         }
     }
     const handlwage5 = () => {
     if(user.money > 4) {
-        const newAmount = user.money - 5
+        // const newAmount = user.money - 5
         const newWage = wager + 5
-        wagerMoney(newAmount)
+        // wagerMoney(newAmount)
         setWager(newWage)
     }
 }
 const handlwage10 = () => {
         if(user.money > 9) {
-            const newAmount = user.money - 10
+            // const newAmount = user.money - 10
             const newWage = wager + 10
-            wagerMoney(newAmount)
+            // wagerMoney(newAmount)
             setWager(newWage)
         }
     }
     const handlwage20 = () => {
         if(user.money >= 20) {
-            const newAmount = user.money - 20
+            // const newAmount = user.money - 20
             const newWage = wager + 20
-            wagerMoney(newAmount)
+            // wagerMoney(newAmount)
             setWager(newWage)
         }
     }
     const handlwage50 = () => {
     if(user.money >= 50) {
-        const newAmount = user.money - 50
+        // const newAmount = user.money - 50
         const newWage = wager + 50
-        wagerMoney(newAmount)
+        // wagerMoney(newAmount)
         setWager(newWage)
     }
     }
@@ -263,4 +266,4 @@ const handlwage10 = () => {
 
 }
 
-export default Game
+export default Game;
