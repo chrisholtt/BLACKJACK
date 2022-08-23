@@ -227,13 +227,13 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
         }
     }
     const handlwage50 = () => {
-    if(user.money >= 50) {
+        if(user.money >= 50) {
         // const newAmount = user.money - 50
         const newWage = wager + 50
         // wagerMoney(newAmount)
         setWager(newWage)
         setInPlay(false);
-    }
+    }}
 
     const showDrawCardOrWager = () => {
         // if(!inPlay && wager===0) {
@@ -342,7 +342,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
 
         </>
     )
-    }
 }
 
 export default Game;
