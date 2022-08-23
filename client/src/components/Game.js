@@ -22,10 +22,17 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             .then(data => setDeckId(data.deck_id))
     }, [])
 
+    useEffect(() => {
+        console.log(inPlay);
+    }, [inPlay])
+
     // auto stops when player has more than 21 points
     useEffect(() => {
         if (getHandValue(playerHand) > 21) {
             setPlayerStand(true)
+            wagerLost(wager);
+            setWager(0);
+            setInPlay(false);
         }}, [playerHand])
 
     //auto stops if split hand has more than 21 points
@@ -45,8 +52,8 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 setSplitHand([])
                 setPlayerStand(false)
                 setSplitStand(false)
-                setWager(0)
                 splitButton()
+                setInPlay(true);
             })
             if (playerHand[0].value === playerHand[1].value && playerHand[0].value ==="Ace") {
                 split()
@@ -106,9 +113,13 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
         }
         if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust"){
             updateMoney(wager * 2)
+            setWager(0)
+            setInPlay(false);
         }
          else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins") {
             wagerLost(wager);
+            setWager(0);
+            setInPlay(false);
         }
     }
 
@@ -199,6 +210,7 @@ const handlwage10 = () => {
             const newWage = wager + 20
             // wagerMoney(newAmount)
             setWager(newWage)
+            setInPlay(false);
         }
     }
     const handlwage50 = () => {
@@ -207,9 +219,35 @@ const handlwage10 = () => {
         const newWage = wager + 50
         // wagerMoney(newAmount)
         setWager(newWage)
+        setInPlay(false);
     }
     }
 
+    const showDrawCardOrWager = () => {
+        if(!inPlay && wager===0) {
+            return (
+                <button onClick={handlwage10}>Wager</button> 
+            )
+        // } else if(!inPlay && wager>0) {
+        //     return (
+        //         <button onClick={handleClick}>Play again</button>
+        //     )
+        } else if(!inPlay && wager>0){
+            return (
+                <button onClick={handleClick}>Draw card</button>
+            )
+        }
+
+        // if(wager>0) {
+        //     return (
+        //         <button onClick={handleClick}>Draw card</button>
+        //     )
+        // } else {
+        //     return (
+        //         <button onClick={handlwage10}>Wager</button> 
+        //     )
+        // }
+    }
 
         return (
         <>
@@ -221,7 +259,7 @@ const handlwage10 = () => {
                 <div className="hand">
                     {dealerCardsNodes}
                 </div>
-            {playerHand.length ? 
+            {/* {playerHand.length ? 
             <div className='wager'>
                 <button onClick={handlwage1}>wager 1</button>
                 <button onClick={handlwage2}>wager 2</button>
@@ -231,7 +269,7 @@ const handlwage10 = () => {
                 <button onClick={handlwage50}>wager 50</button>
             </div>
             : <></>
-            }
+            } */}
             </div>
                 <p> your wager is: {wager}</p>
                 <hr />
@@ -244,7 +282,16 @@ const handlwage10 = () => {
                     {splitCardsNodes}
                 </div>
 
-                {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>}
+                {/* {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>} */}
+
+                {/* {if(wager>0) {<button onClick={handleClick}>Draw card</button>} 
+                <div>
+                    <button onClick={handlwage10}>Wager</button>    
+                </div>} */}
+
+                {/* {inPlay ? <button onClick={handleClick}>Draw card</button> : <button onClick={handlwage10}>Wager</button>} */}
+
+                {/* {showDrawCardOrWager()} */}
 
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
                 {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
@@ -259,6 +306,8 @@ const handlwage10 = () => {
                 {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
                 {palyerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
                 {splitHand.length? getHandValue(splitHand) : <></>}
+
+                {showDrawCardOrWager()}
             </div>
 
         </>

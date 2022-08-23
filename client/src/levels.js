@@ -31,6 +31,14 @@ export const levels = [
         level: 8,
         exp: 700,
     },
+    {
+        level: 9,
+        exp: 800,
+    },
+    {
+        level: 10,
+        exp: 900,
+    },
 ]
 
 export const getLevel = (usersExp) => {
