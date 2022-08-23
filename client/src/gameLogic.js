@@ -11,20 +11,32 @@ const getValue = (card) => {
 
 const getHandValue = (hand) => {
     const total = hand.reduce((prevValue, currentVal) => {
-        return prevValue + getValue(currentVal)
+            return prevValue + getValue(currentVal)
     }, 0)
+    return total
+}
+
+const checkIfBustWithAce = (hand) => {
+    let total = getHandValue(hand)
+    if (total > 21) {
+        for (card of hand) {
+            if (card.value === "ACE") {
+                return newTotal = total - 10
+            }
+        }
+    }
     return total
 }
 
 const blackjackGameLogic = (dealerHand, playerHand) => {
     const dealerTotal = getHandValue(dealerHand)
-    const playerTotal = getHandValue(playerHand)
+    const playerTotal = checkIfBustWithAce(playerHand)
     if (dealerTotal === playerTotal) {
         return "Draw"
     } else if (dealerTotal > 21) {
         return `Dealer bust`
     } else if ( playerTotal > 21) {
-        return `Player bust with ${playerTotal}`
+        return `Player bust`
     } else if (dealerTotal > playerTotal) {
         return "Dealer wins"
     } else if (dealerTotal < playerTotal) {
@@ -35,11 +47,7 @@ const blackjackGameLogic = (dealerHand, playerHand) => {
 
 }
 
-const hand = [
-    "ACE",
-    "QUEEN",
-    5
-]
 
 
-module.exports = {getValue, getHandValue, blackjackGameLogic};
+
+module.exports = {getValue, getHandValue, blackjackGameLogic, checkIfBustWithAce};
