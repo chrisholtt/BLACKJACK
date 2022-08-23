@@ -49,9 +49,6 @@ function App() {
     })
   }, [user.exp])
 
-
-
-
   const updateMoney = (amount) => {
     const newAmount = user.money + amount
     setUser(prev => {
@@ -67,8 +64,11 @@ function App() {
     })
   }
 
-  const wagerMoney = (amount) => {
-    user.money = amount
+  const wagerLost = (amount) => {
+    const newAmount = user.money - amount
+    setUser(prev => {
+      return { ...prev, money: newAmount }
+    })
   }
 
   return (
@@ -87,7 +87,7 @@ function App() {
           <Route path="/players2" element={<GameModes />} />
           <Route path="/rules" element={<Rules />} />
 
-          <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerMoney={wagerMoney} />} />
+          <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerLost={wagerLost} />} />
           <Route path="/game2" element={<Game />} />
         </Routes>
 
