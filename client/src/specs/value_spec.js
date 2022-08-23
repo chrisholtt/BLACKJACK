@@ -10,15 +10,15 @@ describe('card', function() {
     let SevenCard
 
     beforeEach(function() {
-        AceCard = "ACE"
-        KingCard = "KING"
-        QueenCard = "QUEEN"
-        JackCard = "JACK"
-        EightCard = 8
-        SevenCard = 7
+        AceCard = {value: "ACE"}
+        KingCard = {value: "KING"}
+        QueenCard = {value: "QUEEN"}
+        JackCard = {value: "JACK"}
+        EightCard = {value: 8}
+        SevenCard = {value: 7}
     })
     it('Should give back ace as 11', function() {
-        assert.strictEqual(11 , getValue(AceCard))
+        assert.deepEqual(11 , getValue(AceCard))
     })
     it('Should give back king as 10', function() {
         assert.strictEqual(10, getValue(KingCard))

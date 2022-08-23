@@ -74,6 +74,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     const handlePlayAgain = () => {
         setDealersHand([]);
         setPlayerHand([]);
+        setSplitHand([]);
         setPlayAgain(false);
     }
         
@@ -148,6 +149,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
         setPlayerStand(true);
+
         console.log('Player stand');
         // if (getHandValue(dealersHand < 17)){
         //     dealerHit();
