@@ -24,8 +24,8 @@ const checkIfBustWithAce = (hand) => {
                 return newTotal = total - 10
             }
         }
-    return total
     }
+    return total
 }
 
 const blackjackGameLogic = (dealerHand, playerHand) => {

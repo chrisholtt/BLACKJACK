@@ -34,7 +34,7 @@ describe('game', function() {
         playerHand1 = [AceCard, JackCard]
         playerHand2 = [JackCard, QueenCard]
         playerHand3 = [EightCard, SevenCard]
-        playerHand4 = [AceCard, EightCard, SevenCard]
+        playerHand4 = [QueenCard, EightCard, SevenCard]
     })
     it('should return draw', function(){
         assert.strictEqual("Draw", blackjackGameLogic(dealerHand1, playerHand1))
