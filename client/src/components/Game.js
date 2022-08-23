@@ -251,6 +251,23 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
         }
     }
 
+    const Surrender = () => {
+        if(playerHand.length === 2 && inPlay){
+            console.log("surrender option");
+            return (
+                <button onClick={handleSurrender}>Surrender</button>
+            )
+        }
+    }
+
+    const handleSurrender = () => {
+        console.log("they gave up");
+        wagerLost(wager / 2)
+        setWager(0)
+        setInPlay(false);
+        setPlayAgain(true);
+    }
+
     return (
         <>
             <div className="game-wrapper">
@@ -302,6 +319,8 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                     {inPlay ? <button onClick={handleStandClick}>Stand</button> : <></>}
                     {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
                 </>}
+
+                <Surrender />
 
                 {splitButton()}
 
