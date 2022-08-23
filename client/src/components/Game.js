@@ -342,7 +342,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
 
         </>
     )
-
+    }
 }
 
 export default Game;
