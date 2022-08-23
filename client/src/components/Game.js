@@ -47,6 +47,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     const handlePlayAgain = () => {
         setDealersHand([]);
         setPlayerHand([]);
+        setSplitHand([]);
         setPlayAgain(false);
     }
         
@@ -126,7 +127,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             setInPlay(false);
             setPlayAgain(true);
         }
-         else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins") {
+        else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins") {
             wagerLost(wager);
             setWager(0);
             setInPlay(false);
