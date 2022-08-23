@@ -262,7 +262,10 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
 
     const handleSurrender = () => {
         console.log("they gave up");
-
+        wagerLost(wager / 2)
+        setWager(0)
+        setInPlay(false);
+        setPlayAgain(true);
     }
 
     return (
