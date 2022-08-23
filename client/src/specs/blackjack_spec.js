@@ -21,12 +21,12 @@ describe('game', function() {
 
 
     beforeEach(function(){
-        AceCard = "ACE"
-        KingCard = "KING"
-        QueenCard = "QUEEN"
-        JackCard = "JACK"
-        EightCard = 8
-        SevenCard = 7
+        AceCard = {value: "ACE"}
+        KingCard = {value: "KING"}
+        QueenCard = {value: "QUEEN"}
+        JackCard = {value: "JACK"}
+        EightCard = {value: 8}
+        SevenCard = {value: 7}
         dealerHand1 = [AceCard, QueenCard]
         dealerHand2 = [EightCard, AceCard]
         dealerHand3 = [QueenCard, SevenCard]
@@ -46,10 +46,10 @@ describe('game', function() {
         assert.strictEqual("Player wins", blackjackGameLogic(dealerHand2, playerHand1))
     })
     it('should return player bust', function(){
-        assert.strictEqual("Player bust with 26", blackjackGameLogic(dealerHand2, playerHand4))
+        assert.strictEqual("Player bust", blackjackGameLogic(dealerHand2, playerHand4))
     })
     it('should return dealer bust', function(){
-        assert.strictEqual("Dealer bust with 27", blackjackGameLogic(dealerHand4, playerHand2))
+        assert.strictEqual("Dealer bust", blackjackGameLogic(dealerHand4, playerHand2))
     })
     it('should return dealer wins', function(){
         assert.strictEqual("Dealer wins", blackjackGameLogic(dealerHand2, playerHand3))
