@@ -9,10 +9,10 @@ const Navbar = ({ user, updateMoney }) => {
 
     return (
         <div className='navbar'>
-            <Link to="/user"><UserIcon /></Link>
+            <Link to="/user"><UserIcon user={user} /></Link>
             <Link to="/level"><LevelIcon level={user.level} exp={user.exp} /></Link>
             <Link to="/money"><MoneyIcon user={user} updateMoney={updateMoney} /></Link>
-            <Link to="/rewards"><RewardsIcon /></Link>
+            <Link to="/rewards/wheel"><RewardsIcon /></Link>
         </div>
     )
 }
