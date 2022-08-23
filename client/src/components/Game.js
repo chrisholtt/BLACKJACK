@@ -71,6 +71,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     useEffect(() => {
         setWinner(blackjackGameLogic(dealersHand, playerHand))
         setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
+        console.log(winner);
     }, [playerHand])
 
     // separets the dealer's cards to show
@@ -266,6 +267,23 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
         setPlayAgain(true);
     }
 
+    const DoubleDown = () => {
+        if(playerHand.length === 2 && inPlay){
+            return (
+                <button onClick={handleDoubleDown}>Double Down</button>
+            )
+        }
+    }
+
+    const handleDoubleDown = () => {
+        const doubleWager = wager * 2;
+        setWager(doubleWager)
+        handleHitClick();
+        if(inPlay){
+            handleStandClick();
+        }
+    }
+
     return (
         <>
             <div className="game-wrapper">
@@ -308,6 +326,8 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 </>}
 
                 <Surrender />
+
+                <DoubleDown />
 
                 {splitButton()}
 
