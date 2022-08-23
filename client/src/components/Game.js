@@ -72,6 +72,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     useEffect(() => {
         setWinner(blackjackGameLogic(dealersHand, playerHand))
         setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
+        console.log(winner);
     }, [playerHand])
 
     // separets the dealer's cards to show
@@ -254,7 +255,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
 
     const Surrender = () => {
         if(playerHand.length === 2 && inPlay){
-            console.log("surrender option");
             return (
                 <button onClick={handleSurrender}>Surrender</button>
             )
@@ -262,11 +262,27 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     }
 
     const handleSurrender = () => {
-        console.log("they gave up");
         wagerLost(wager / 2)
         setWager(0)
         setInPlay(false);
         setPlayAgain(true);
+    }
+
+    const DoubleDown = () => {
+        if(playerHand.length === 2 && inPlay){
+            return (
+                <button onClick={handleDoubleDown}>Double Down</button>
+            )
+        }
+    }
+
+    const handleDoubleDown = () => {
+        const doubleWager = wager * 2;
+        setWager(doubleWager)
+        handleHitClick();
+        if(inPlay){
+            handleStandClick();
+        }
     }
 
     return (
@@ -303,17 +319,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                     {splitCardsNodes}
                 </div>
 
-                {/* {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>} */}
-
-                {/* {if(wager>0) {<button onClick={handleClick}>Draw card</button>} 
-                <div>
-                    <button onClick={handlwage10}>Wager</button>    
-                </div>} */}
-
-                {/* {inPlay ? <button onClick={handleClick}>Draw card</button> : <button onClick={handlwage10}>Wager</button>} */}
-
-                {/* {showDrawCardOrWager()} */}
-
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
                     {inPlay ? <button onClick={handleHitClick}>Hit</button> : <></>}
                     {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
@@ -322,6 +327,8 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 </>}
 
                 <Surrender />
+
+                <DoubleDown />
 
                 {splitButton()}
 
