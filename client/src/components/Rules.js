@@ -11,9 +11,9 @@ const Rules = () => {
 
     const [activeStep, setActiveStep] = useState(0);
 
-    const steps = ['Step One', 'Step Two', 'Step Three'];
+    const steps = ['Place Wager', 'Draw Cards', 'Players Hand', 'Dealers Hand'];
 
-    const description = ['Description of first step', 'Description of second step', 'Description of third step'];
+    const description = ['Description of first step', 'Description of second step', 'Description of third step', 'Description of fourth step'];
 
     const images = ["https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg", "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cow_%28Fleckvieh_breed%29_Oeschinensee_Slaunger_2009-07-07.jpg", "https://media.4-paws.org/e/8/2/7/e82789b9dc8a986d3b61c0aa7610affeecb93933/VIER%20PFOTEN_2015-04-27_010-1927x1333.jpg"];
 
