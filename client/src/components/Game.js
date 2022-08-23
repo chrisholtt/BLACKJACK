@@ -297,9 +297,9 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 {/* {showDrawCardOrWager()} */}
 
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
-                    {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></>}
+                    {inPlay ? <button onClick={handleHitClick}>Hit</button> : <></>}
                     {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
-                    {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></>}
+                    {inPlay ? <button onClick={handleStandClick}>Stand</button> : <></>}
                     {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
                 </>}
 
@@ -312,7 +312,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 <ShowDrawCardOrWager />
                 
             </div>
-
         </>
     )
 }
