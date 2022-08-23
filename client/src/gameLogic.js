@@ -30,7 +30,7 @@ const checkIfBustWithAce = (hand) => {
 
 const blackjackGameLogic = (dealerHand, playerHand) => {
     const dealerTotal = getHandValue(dealerHand)
-
+    const playerTotal = checkIfBustWithAce(playerHand)
     if ((playerTotal > 0) && dealerTotal === playerTotal) {
         return "Draw"
     } else if (dealerTotal > 21) {
