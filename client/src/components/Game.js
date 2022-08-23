@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 const { blackjackGameLogic, getHandValue } = require('../gameLogic')
 
 
-
-
 const Game = ({user, updateMoney, wagerMoney}) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
@@ -184,7 +182,7 @@ const Game = ({user, updateMoney, wagerMoney}) => {
         setWager(newWage)
     }
 }
-const handlwage10 = () => {
+    const handlwage10 = () => {
         if(user.money > 9) {
             const newAmount = user.money - 10
             const newWage = wager + 10
@@ -214,7 +212,7 @@ const handlwage10 = () => {
         return (
         <>
             <div className="game-wrapper">
-                <Link to="/">CLOSE</Link>
+                <a href="/">CLOSE</a>
 
             <div className='top-half'>
 
@@ -231,7 +229,7 @@ const handlwage10 = () => {
                 <button onClick={handlwage50} data-testid='wager-buttons-50'>wager 50</button>
             </div>
             </div>
-                <p data-testid='wager-amount' id='wager-amount'> Your wager is: {wager}</p>
+                <p data-testid='wager-amount' id='wager-amount'>Your wager is: {wager}</p>
                 <hr />
 
                 <div className="hand" data-testid='player-hand'>
@@ -242,7 +240,7 @@ const handlwage10 = () => {
                     {splitCardsNodes}
                 </div>
 
-                {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick} data-testid='draw-button'>Draw card</button>}
+                {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick} data-testid='draw-button'>Draw cards</button>}
 
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
                 {playerHand.length ? <button onClick={handleHitClick} data-testid='hit-button'>Hit</button> : <></> }
