@@ -85,8 +85,8 @@
 	height: 60px;
 	border: 2px solid black;
 	border-radius: 5px;
-	background: rgba(245, 245, 245, 0.825);
-	box-shadow: 0px 0px 20px 5px #fffb7a;
+	background: rgba(245, 245, 245, 0.8);
+	box-shadow: 0px 0px 10px 5px #fffb7a;
 	font-size: 1.5rem;
 	left: 0;
 	transform:translateX(75%);
@@ -112,4 +112,22 @@
 	cursor: pointer;
 	outline:none;
 	letter-spacing: 1px;
+}
+
+.wheel-price {
+	position: absolute;
+	top: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 22px;
+	width: 150px;
+	height: 100px;
+	border-radius: 50%;
+	background: rgba(245, 245, 245);
+	color: black;
+	border: 2px solid black;
+	z-index: 100;
+	box-shadow: 0px 0px 10px 5px #fffb7a;
+
 }

@@ -1,25 +1,31 @@
 import React from 'react'
-import SpinWheel from '../containers/SpinWheel'
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 
-const Rewards = ({ user, updateMoney, handleExpGain }) => {
+const Rewards = () => {
     return (
         <div className='wrapper'>
 
             <div className='rewards-container'>
                 <Link to="/">❌</Link>
                 <div className="rewards-display">
-
-                    <SpinWheel user={user} updateMoney={updateMoney} handleExpGain={handleExpGain} />
-
+                    <Outlet />
                 </div>
-
                 <div className="rewards-nav">
-                    <h1>Maybe</h1>
-                    <h1>have</h1>
-                    <h1>links</h1>
-                    <h1>here?</h1>
+
+                    <Link to="/rewards/wheel">
+                        <div className="rewards-nav-icon" style={{ background: '#4caf50' }}>WHEEL</div>
+                    </Link>
+                    <Link to="/rewards/dice">
+                        <div className="rewards-nav-icon" style={{ background: '#f44336' }}>DICE</div>
+                    </Link>
+                    <Link to="/rewards/wheel">
+                        <div className="rewards-nav-icon" style={{ background: '#4caf50' }}>RPS</div>
+                    </Link>
+                    <Link to="/rewards/wheel">
+                        <div className="rewards-nav-icon" style={{ background: '#f44336' }}>DAILY</div>
+                    </Link>
+
                 </div>
             </div>
 

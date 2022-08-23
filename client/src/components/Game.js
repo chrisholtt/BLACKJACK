@@ -41,7 +41,8 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     useEffect(() => {
         if (getHandValue(playerHand) > 21) {
             setSplitStand(true)
-        }}, [splitHand])
+        }
+    }, [splitHand])
 
     const handlePlayAgain = () => {
         setDealersHand([]);
@@ -62,12 +63,12 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 splitButton()
                 setInPlay(true);
             })
-            if (playerHand[0].value === playerHand[1].value && playerHand[0].value ==="Ace") {
-                split()
+        if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
+            split()
         }
     }
     
-        useEffect(() => {
+    useEffect(() => {
         setWinner(blackjackGameLogic(dealersHand, playerHand))
         setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
     }, [playerHand])
@@ -80,7 +81,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             </div>
         )
     })
-    
+
     // separets the player's cards to show
     const playerCardsNodes = playerHand.map((card, index) => {
         return (
@@ -89,37 +90,37 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             </Draggable>
         )
     })
-    
+
     // gives player anouther card, makes player stop if the card gets the points over 21
     const handleHitClick = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-        .then(res => res.json())
-        .then(data => {
-            const copyHand = [...playerHand, data.cards[0]]
-            setPlayerHand(copyHand)
-        })
-        if (getHandValue(playerHand) >21) {
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...playerHand, data.cards[0]]
+                setPlayerHand(copyHand)
+            })
+        if (getHandValue(playerHand) > 21) {
             setPlayerStand(true)
-        } 
+        }
     }
-    
+
     // dealer getting another card, happens at the end of the game when player stands
     const dealerHit = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-        .then(res => res.json())
-        .then(data => {
-            const copyHand = [...dealersHand, data.cards[0]]
-            setDealersHand(copyHand)
-        })
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...dealersHand, data.cards[0]]
+                setDealersHand(copyHand)
+            })
     }
-    
+
     // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
         setPlayerStand(true);
         if (getHandValue(dealersHand) < 17) {
             dealerHit();
         }
-        if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust"){
+        if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust") {
             updateMoney(wager * 2)
             setWager(0)
             setInPlay(false);
@@ -143,15 +144,15 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     // if there are two of the same value allows player to split and deal with each separatly
     const split = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
-        .then(res => res.json())
-        .then(data => {
-            const newHand = [playerHand[0], data.cards[0]]
-            const newSplitHand = [playerHand[1], data.cards[1]]
-            setPlayerHand(newHand)
-            setSplitHand(newSplitHand)
-        })
+            .then(res => res.json())
+            .then(data => {
+                const newHand = [playerHand[0], data.cards[0]]
+                const newSplitHand = [playerHand[1], data.cards[1]]
+                setPlayerHand(newHand)
+                setSplitHand(newSplitHand)
+            })
     }
-    
+
     // the split button
     const splitButton = () => {
         if (playerHand.length === 2) {
@@ -160,7 +161,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             }
         }
     }
-    
+
 
     // shows the split hand
     const splitCardsNodes = splitHand.map((card, index) => {
@@ -174,11 +175,11 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     // gives the split hand a card
     const handleSplitHit = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-        .then(res => res.json())
-        .then(data => {
-            const copyHand = [...splitHand, data.cards[0]]
-            setSplitHand(copyHand)
-        })
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...splitHand, data.cards[0]]
+                setSplitHand(copyHand)
+            })
     }
 
     //wager buttons
@@ -199,14 +200,15 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
         }
     }
     const handlwage5 = () => {
-    if(user.money > 4) {
-        // const newAmount = user.money - 5
-        const newWage = wager + 5
-        // wagerMoney(newAmount)
-        setWager(newWage)
+        if (user.money > 4) {
+            const newAmount = user.money - 5
+            const newWage = wager + 5
+            wagerMoney(newAmount)
+            setWager(newWage)
+        }
     }
-}
-const handlwage10 = () => {
+
+    const handlwage10 = () => {
         if(user.money > 9) {
             // const newAmount = user.money - 10
             const newWage = wager + 10
@@ -214,6 +216,7 @@ const handlwage10 = () => {
             setWager(newWage)
         }
     }
+    
     const handlwage20 = () => {
         if(user.money >= 20) {
             // const newAmount = user.money - 20
@@ -230,7 +233,6 @@ const handlwage10 = () => {
         // wagerMoney(newAmount)
         setWager(newWage)
         setInPlay(false);
-    }
     }
 
     const showDrawCardOrWager = () => {
@@ -276,12 +278,12 @@ const handlwage10 = () => {
         // }
     }
 
-        return (
+    return (
         <>
             <div className="game-wrapper">
                 <Link to="/">CLOSE</Link>
 
-            <div className='top-half'>
+                <div className='top-half'>
 
                 <div className="hand">
                     {dealerCardsNodes}
@@ -298,6 +300,7 @@ const handlwage10 = () => {
             : <></>
             } */}
             </div>
+            
                 <p> your wager is: {wager}</p>
                 <hr />
 
@@ -321,20 +324,20 @@ const handlwage10 = () => {
                 {/* {showDrawCardOrWager()} */}
 
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
-                {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></> }
-                {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
-                {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></> }
-                {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></> }
+                    {playerHand.length ? <button onClick={handleHitClick}>Hit</button> : <></>}
+                    {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
+                    {playerHand.length ? <button onClick={handleStandClick}>Stand</button> : <></>}
+                    {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
                 </>}
 
                 {splitButton()}
-
 
                 {palyerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>}
                 {palyerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
                 {splitHand.length? getHandValue(splitHand) : <></>}
 
                 {showDrawCardOrWager()}
+                
             </div>
 
         </>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import '../spinWheel.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 
-const SpinWheel = ({ user, updateMoney, handleExpGain }) => {
+const SpinWheel = ({ user, updateMoney, handleExpGain, updateMoneyDecrease }) => {
     const [wheelSpin, setWheelSpin] = useState(0)
     const [prize, setPrize] = useState(null)
 
@@ -18,6 +20,7 @@ const SpinWheel = ({ user, updateMoney, handleExpGain }) => {
             360,
         ]
         const random = Math.ceil(Math.random() * 32);
+        console.log(random)
 
         if (random >= 0 && random <= 8) {
             const spin = degrees[random]
@@ -50,15 +53,28 @@ const SpinWheel = ({ user, updateMoney, handleExpGain }) => {
         1,
         1000,
         180,
+        100
     ]
 
 
 
     const handleClick = () => {
+        // If user can't afford, return:
+        if (user.money < 150) {
+            alert(`You need ${300 - user.money} coins to spin the wheel!`)
+            return
+        }
+        // Take money from the user:
+        updateMoneyDecrease(300)
+
         // Spins the wheel and returns the prize 
         const prizeValue = getChoice()
+        console.log(prizeValue)
+
         // waits 5 secs till wheel stops to set prize
         setTimeout(() => {
+            // Setting to null before change incase state becomes the same
+            setPrize(null)
             setPrize(prizeValue)
             handleExpGain(25)
         }, 5000)
@@ -77,13 +93,15 @@ const SpinWheel = ({ user, updateMoney, handleExpGain }) => {
             <div style={{ position: 'relative' }}>
                 <button id="spin" onClick={handleClick}>Spin</button>
                 <span className="arrow">⬇</span>
-                <div className="prize-box">{prize ?
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        ⭐️{prize}⭐️
-                        <h6>+25xp</h6>
-                    </div>
-                    :
-                    'Spin to win!'}
+                <div className="wheel-price"><FontAwesomeIcon icon={faSackDollar} />300/ spin</div>
+                <div className="prize-box" onClick={handleClick} style={{ cursor: 'pointer' }}>
+                    {prize ?
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            ⭐️{prize}⭐️
+                            <h6>+25xp</h6>
+                        </div>
+                        :
+                        'SPIN TO WIN!'}
                 </div>
                 <div className="wheel-container" style={{ transform: "rotate(" + wheelSpin + "deg)" }}>
                     <div className="one">💰{prizes[0]}💰</div>
