@@ -253,7 +253,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
 
     const Surrender = () => {
         if(playerHand.length === 2 && inPlay){
-            console.log("surrender option");
             return (
                 <button onClick={handleSurrender}>Surrender</button>
             )
@@ -261,7 +260,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     }
 
     const handleSurrender = () => {
-        console.log("they gave up");
         wagerLost(wager / 2)
         setWager(0)
         setInPlay(false);
@@ -301,17 +299,6 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 <div className="hand">
                     {splitCardsNodes}
                 </div>
-
-                {/* {playerHand.length ? <button onClick={handleClick}>{palyerStand ? "Play again" : "Forfit" } </button> : <button onClick={handleClick}>Draw card</button>} */}
-
-                {/* {if(wager>0) {<button onClick={handleClick}>Draw card</button>} 
-                <div>
-                    <button onClick={handlwage10}>Wager</button>    
-                </div>} */}
-
-                {/* {inPlay ? <button onClick={handleClick}>Draw card</button> : <button onClick={handlwage10}>Wager</button>} */}
-
-                {/* {showDrawCardOrWager()} */}
 
                 {palyerStand && splitStand ? <p>Play another round?</p> : <>
                     {inPlay ? <button onClick={handleHitClick}>Hit</button> : <></>}
