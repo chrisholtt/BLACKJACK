@@ -10,7 +10,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
     const [splitHand, setSplitHand] = useState([])
     const [playerStand, setPlayerStand] = useState(false)
     const [splitStand, setSplitStand] = useState(false)
-    // const [winner, setWinner] = useState('')
+    const [winner, setWinner] = useState('')
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
     const [inPlay, setInPlay] = useState(false)
@@ -352,6 +352,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             setPlayAgain(true);
             setPlayerStand(false);
             console.log('Player win');
+            setWinner('Player win');
             setDealerDone(false);
         }
          else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
@@ -361,6 +362,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             setPlayAgain(true);
             setPlayerStand(false);
             console.log('Dealer win');
+            setWinner('Dealer win');
             setDealerDone(false);
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Draw") {
             setWager(0);
@@ -368,6 +370,7 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
             setPlayAgain(true);
             setPlayerStand(false);
             console.log('Draw');
+            setWinner('Draw');
             setDealerDone(false);
         }
     }
@@ -431,6 +434,8 @@ const Game = ({user, updateMoney, wagerMoney, wagerLost}) => {
                 {/* {playerStand ?<p>{winner}</p>:<p>{getHandValue(playerHand)}</p>} */}
                 {playerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
                 {splitHand.length? getHandValue(splitHand) : <></>}
+
+                <p>{winner}</p>
 
                 <RunningTotals />
 
