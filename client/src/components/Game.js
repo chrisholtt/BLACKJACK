@@ -15,12 +15,21 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
 
+
     // Fetch all deckss
     useEffect(() => {
         fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
             .then(res => res.json())
             .then(data => setDeckId(data.deck_id))
-    }, [])
+        }, [])
+
+    const getDeckForTest = function() {
+    fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
+    .then(res => res.json())
+    .then(data => setDeckId(data.deck_id))
+    console.log("this is working");
+    console.log(deckId);
+    }
 
     // auto stops when player has more than 21 points
     useEffect(() => {
@@ -60,8 +69,8 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     // separets the dealer's cards to show
     const dealerCardsNodes = dealersHand.map((card, index) => {
         return (
-            <div className='hand' key={index}>
-                <img key={index} src={card.image} alt="playing_card" />
+            <div className='hand' key={index} data-testid='dealer-hand'>
+                <img key={index} src={card.image} alt="playing_card"  />
             </div>
         )
     })
@@ -69,8 +78,8 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     // separets the player's cards to show
     const playerCardsNodes = playerHand.map((card, index) => {
         return (
-            <Draggable>
-                <img key={index} src={card.image} alt="playing_card" />
+            <Draggable >
+                <img key={index} src={card.image} alt="playing_card" data-testid='player-hand' />
             </Draggable>
         )
     })
@@ -216,7 +225,7 @@ const Game = ({user, updateMoney, wagerMoney}) => {
 
             <div className='top-half'>
 
-                <div className="hand" data-testid='dealer-hand'>
+                <div className="hand" >
                     {dealerCardsNodes}
                 </div>
 
@@ -232,7 +241,7 @@ const Game = ({user, updateMoney, wagerMoney}) => {
                 <p data-testid='wager-amount' id='wager-amount'>Your wager is: {wager}</p>
                 <hr />
 
-                <div className="hand" data-testid='player-hand'>
+                <div className="hand" >
                     {playerCardsNodes}
                 </div>
 
@@ -255,7 +264,9 @@ const Game = ({user, updateMoney, wagerMoney}) => {
                 {palyerStand ?<p data-testid='winner'>{winner}</p>:<p data-testid='hand-value'>{getHandValue(playerHand)}</p>}
                 {palyerStand && splitHand.length ?<p data-testid='split-winner'>{splitWinner}</p>:<></>}
                 {splitHand.length? <p data-testid='split-hand-value'>getHandValue(splitHand)</p> : <></>}
+            <button onClick={getDeckForTest} data-testid='get-deck'>Get a new deck</button>
             </div>
+
 
         </>
     )
