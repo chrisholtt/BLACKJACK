@@ -26,6 +26,17 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
     // auto stops when player has more than 21 points
     useEffect(() => {
+        if (getHandValue(playerHand) === 21 && playerHand.length) {
+            console.log("Blackjack");
+            updateMoney(wager * 1.5)
+            setWager(0)
+            setInPlay(false);
+            setPlayAgain(true);
+            setPlayerStand(false);
+            console.log('Player win BLACKJACK');
+            setWinner('Player win BLACKJACK');
+            setDealerDone(false);
+        }
         if (getHandValue(playerHand) > 21) {
             console.log("player bust");
             setPlayerStand(true);
@@ -288,8 +299,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
             console.log('Player win');
             setWinner('Player win');
             setDealerDone(false);
-        }
-        else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
+        } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
             wagerLost(wager);
             setWager(0);
             setInPlay(false);
