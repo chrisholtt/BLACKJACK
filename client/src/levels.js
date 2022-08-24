@@ -52,6 +52,9 @@ export const getLevel = (usersExp) => {
 }
 
 export const getLevelPercentage = (usersLvl, usersExp) => {
+    if (usersLvl == 10) {
+        return 100
+    }
     const expForCurrentLvl = levels[usersLvl - 1].exp
     const expForNextLevel = levels[usersLvl].exp
     const expInLevelRange = usersExp - expForCurrentLvl
