@@ -527,8 +527,8 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
                 {playerStand && splitStand ? <p>Play another round?</p> : <> </>}
 
                 <ButtonGroup>
-                    {splitHand.length > 1 && playerStand && !splitStand ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
-                    {splitHand.length > 1 && playerStand && !splitStand ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
+                    {splitHand.length > 1 && playerStand && !splitStand ? <Button onClick={handleSplitHit}>Hit second hand</Button> : <></>}
+                    {splitHand.length > 1 && playerStand && !splitStand ? <Button onClick={handleSplitStandClick}>Stand split hand</Button> : <></>}
                 </ButtonGroup>
 
 

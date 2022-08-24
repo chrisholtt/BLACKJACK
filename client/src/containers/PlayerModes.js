@@ -13,7 +13,6 @@ const PlayerModes = () => {
                     <Link to="/rules"><div className="play-mode">Rules</div></Link>
                 </div>
             </div>
-
         </div>
 
     )
