@@ -21,7 +21,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     const [inPlay, setInPlay] = useState(false)
     const [splitInPlay, setSplitInPlay] = useState(false)
     const [playAgain, setPlayAgain] = useState(false);
-    const [splitPlayAgain, setSplitPlayAgain] = useState(false)
+    const [splitPlayAgain, setSplitPlayAgain] = useState(true)
     const [dealerDone, setDealerDone] = useState(false);
     
     // Fetch all cards
@@ -437,7 +437,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     const forceDouble = () => {
         setSplitStand(false)
         setInPlay(true);
-        setSplitInPlay(true)
+        setSplitInPlay(false)
         setDealersHand([{
             "code": "QH",
             "image": "https://deckofcardsapi.com/static/img/QH.png",
@@ -537,7 +537,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
                 {splitHand.length ? <SplitRunningTotal /> : <></>}
 
-                <button onClick={forceDouble} >Force double!! For show purpose only</button>
+                {user.name === "Test" || user.name === "test" ? <button onClick={forceDouble} >Force double!! For show purpose only</button> : <></>}
                 
                 <Link to="/" className='leave-game'>LEAVE GAME</Link>
 
