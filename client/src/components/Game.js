@@ -9,13 +9,13 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const [playerHand, setPlayerHand] = useState([])
     const [splitHand, setSplitHand] = useState([])
     const [playerStand, setPlayerStand] = useState(false)
-    const [splitStand, setSplitStand] = useState(false)
+    const [splitStand, setSplitStand] = useState(true)
     const [winner, setWinner] = useState('')
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
     const [splitWager, setSplitWager] = useState(0)
     const [inPlay, setInPlay] = useState(false)
-    const [splitInPlay, SetSplitInPlay] = useState(false)
+    const [splitInPlay, setSplitInPlay] = useState(false)
     const [playAgain, setPlayAgain] = useState(false);
     const [splitPlayAgain, setSplitPlayAgain] = useState(false)
     const [dealerDone, setDealerDone] = useState(false);
@@ -27,96 +27,108 @@ const Game = ({user, updateMoney, wagerLost}) => {
             .then(data => setDeckId(data.deck_id))
         }, [])
         
-        // Fetches the starting hands
-        const handleClick = () => {
-            fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
-                .then(res => res.json())
-                .then(data => {
-                    setDealersHand([data.cards[0], data.cards[1]])
-                    setPlayerHand([data.cards[2], data.cards[3]])
-                    setSplitHand([])
-                    setPlayerStand(false)
-                    setSplitStand(false)
-                    splitButton()
-                    setInPlay(true);
-                })
-            if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
-                split()
-            }
+    // Fetches the starting hands
+    const handleClick = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
+            .then(res => res.json())
+            .then(data => {
+                setDealersHand([data.cards[0], data.cards[1]])
+                setPlayerHand([data.cards[2], data.cards[3]])
+                setSplitHand([])
+                setPlayerStand(false)
+                console.log("restarting the game on split stand");
+                setInPlay(true);
+                console.log('handle start');
+                splitButton()
+            })
+        if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
+            split()
         }
+    }
 
-        // gives player anouther card, makes player stop if the card gets the points over 21
-        const handleHitClick = () => {
+    // gives player anouther card, makes player stop if the card gets the points over 21
+    const handleHitClick = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...playerHand, data.cards[0]]
+                setPlayerHand(copyHand)
+            })
+    }
+
+    // dealer getting another card, happens at the end of the game when player stands
+    const dealerHit = () => {
             fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
                 .then(res => res.json())
                 .then(data => {
-                    const copyHand = [...playerHand, data.cards[0]]
-                    setPlayerHand(copyHand)
+                    const copyHand = [...dealersHand, data.cards[0]]
+                    setDealersHand(copyHand)
                 })
-        }
-    
-        // dealer getting another card, happens at the end of the game when player stands
-        const dealerHit = () => {
-                fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-                    .then(res => res.json())
-                    .then(data => {
-                        const copyHand = [...dealersHand, data.cards[0]]
-                        setDealersHand(copyHand)
-                    })
-        }
+    }
 
     // auto stops when player has more than 21 points
     useEffect(() => {
-        if (checkIfBustWithAce(playerHand) === 21 && playerHand.length) {
-            console.log("Blackjack");
-            updateMoney(wager * 1.5)
-            setWager(0)
-            setInPlay(false);
-            setPlayAgain(true);
-            setPlayerStand(false);
-            console.log('Player win BLACKJACK');
-            setWinner('Player win BLACKJACK');
-            setDealerDone(false);
+        if (checkIfBustWithAce(playerHand) === 21 && playerHand.length === 2) {
+            if (splitInPlay) {
+                updateMoney(wager * 1.5)
+                setWager(0)
+                setInPlay(false);
+                setPlayAgain(true);
+                setPlayerStand(false);
+                setWinner('Player win BLACKJACK');
+            } else {
+                updateMoney(wager * 1.5)
+                setWager(0)
+                setInPlay(false);
+                setPlayAgain(true);
+                setPlayerStand(false);
+                setWinner('Player win BLACKJACK');
+                setDealerDone(false);
+            }
         }
         if (checkIfBustWithAce(playerHand) > 21) {
-            console.log("player bust");
-            setPlayerStand(true);
-            wagerLost(wager);
-            setWager(0);
-            setInPlay(false);
-            setPlayAgain(true);
-            findWinner();
+            if (splitInPlay) {
+                setPlayerStand(true);
+                wagerLost(wager);
+                setWager(0);
+                setInPlay(false);
+                setPlayAgain(true);
+            } else {
+                setPlayerStand(true);
+                wagerLost(wager);
+                setWager(0);
+                setInPlay(false);
+                setPlayAgain(true);
+                findWinner();
+            }
     }}, [playerHand])
 
     useEffect(() => {
-        if (checkIfBustWithAce(splitHand) === 21 && playerHand.length){
+        if (checkIfBustWithAce(splitHand) === 21 && splitHand.length === 2){
             updateMoney(splitWager * 1.5)
             setWager(0)
-            setSplitPlayAgain(true)
+            setSplitStand(true)
             setSplitWinner('Split hand wins BLACKJACK')
         }
         if (checkIfBustWithAce(splitHand) > 21) {
             setSplitStand(true)
             wagerLost(splitWager)
-            setSplitPlayAgain(true)
             setSplitWager(0)
             findSplitWinner()
         }
     }, [splitHand])
 
     useEffect(() => {
-            if(playerStand && splitStand && getHandValue(dealersHand) < 17){
-                console.log('Dealer hits');
+            if(playerStand && splitStand && aceOfDealer(dealersHand) < 17){
                 dealerHit();
-            } else {
+            } else if (playerStand && splitStand) {
                 setDealerDone(true);
             }
-    }, [playerStand])
+    }, [playerStand, splitStand])
 
     useEffect(() => {
         if(dealersHand.length >= 3) {
-            if(playerStand && getHandValue(dealersHand) < 17){
-                console.log('Dealer hits');
+            if(playerStand && aceOfDealer(dealersHand) < 17){
                 dealerHit();
             } else if (playerStand){
                 setDealerDone(true);
@@ -127,19 +139,21 @@ const Game = ({user, updateMoney, wagerLost}) => {
     
     useEffect(() => {
         if(dealerDone) {
-            console.log('finding winner');
-            findWinner();
-            setDealerDone(false);
+            if (playerStand && splitStand && splitHand.length) {
+                findWinner();
+                findSplitWinner();
+                setDealerDone(false);
+            } else if (playerStand && splitStand && !splitHand.length) {
+                findWinner()
+                setDealerDone(false)
+            } else {
+                findWinner();
+                setDealerDone(false);
+            }
         }
     }, [dealerDone])
-    
-    //auto stops if split hand has more than 21 points
-    useEffect(() => {
-        if (getHandValue(playerHand) > 21) {
-            setSplitStand(true)
-        }
-    }, [splitHand])
-    
+
+
     const handlePlayAgain = () => {
         setDealersHand([]);
         setPlayerHand([]);
@@ -170,6 +184,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
         setPlayerStand(true);
+        setInPlay(false)
     }
     const handleSplitStandClick = () => {
         setSplitStand(true);
@@ -177,7 +192,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
     // the split button
     const splitButton = () => {
-        if (playerHand.length === 2) {
+        if (playerHand.length === 2 && !splitHand.length) {
             if (playerHand[0].value === playerHand[1].value) {
                 return <button onClick={split}>Split?</button>
             }
@@ -194,7 +209,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
                 setPlayerHand(newHand)
                 setSplitHand(newSplitHand)
                 setSplitWager(wager)
-                SetSplitInPlay(true)
+                setSplitInPlay(true)
                 setSplitStand(false)
                 setSplitPlayAgain(false)
             })
@@ -235,7 +250,6 @@ const Game = ({user, updateMoney, wagerLost}) => {
             const newWage = wager + 20
             // wagerMoney(newAmount)
             setWager(newWage)
-            setInPlay(false);
         }
     }
     const handlwage50 = () => {
@@ -244,7 +258,6 @@ const Game = ({user, updateMoney, wagerLost}) => {
         const newWage = wager + 50
         // wagerMoney(newAmount)
         setWager(newWage)
-        setInPlay(false);
     }}
 
     const ShowDrawCardOrWager = () => {
@@ -309,49 +322,78 @@ const Game = ({user, updateMoney, wagerLost}) => {
         setPlayerStand(true);
     }
 
-    // needs to be copied for the split winner, treat them seperatlly
     const findWinner = () => {
         if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust") {
             updateMoney(wager * 2)
             setWager(0)
-            setInPlay(false);
-            setPlayAgain(true);
-            setPlayerStand(false);
-            console.log('Player win');
-            setWinner('Player win');
-            setDealerDone(false);
+            if (splitInPlay) {
+                setPlayAgain(true);
+                setInPlay(false)
+                console.log("find winner resetting on split hand with split hand");
+                setWinner('Player win');
+            } else {
+                setInPlay(false);
+                setPlayAgain(true);
+                setPlayerStand(false);
+                console.log("find winner resetting on split hand without split hand");
+                setWinner('Player win');
+                setDealerDone(false);
+            }
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
             wagerLost(wager);
             setWager(0);
-            setInPlay(false);
-            setPlayAgain(true);
-            setPlayerStand(false);
-            console.log('Dealer win');
-            setWinner('Dealer win');
-            setDealerDone(false);
+            if (splitInPlay){
+                setPlayAgain(true);
+                setInPlay(false)
+                console.log("dealer wins and resetting split hand wiht split hand");
+                setWinner('Dealer win');
+            } else {
+                setInPlay(false);
+                setPlayAgain(true);
+                console.log("dealer wins and resetting split hand wihtout split hand");
+                setWinner('Dealer win');
+                setDealerDone(false);
+            }
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Draw") {
             setWager(0);
-            setInPlay(false);
-            setPlayAgain(true);
-            setPlayerStand(false);
-            console.log('Draw');
-            setWinner('Draw');
-            setDealerDone(false);
+            if (splitInPlay) {
+                setPlayAgain(true);
+                setInPlay(false)
+                console.log("resetting on draw with split hand");
+                setWinner('Draw');
+            } else {
+                setInPlay(false);
+                setPlayAgain(true);
+                setPlayerStand(false);
+                console.log("resetting on draw without split hand");
+                setWinner('Draw');
+                setDealerDone(false);
+            }
         }
     }
 
+    // check what does need to be changed
     const findSplitWinner = () => {
         if (blackjackGameLogic(dealersHand, splitHand) === "Player wins" || blackjackGameLogic(dealersHand, splitHand) === "Dealer bust") {
             updateMoney(splitWager * 2)
             setSplitWager(0)
+            setSplitPlayAgain(true)
+            setSplitInPlay(false)
             setSplitWinner('Won with split hand')
+            setDealerDone(false)
         } else if (blackjackGameLogic(dealersHand, splitHand) === "Dealer wins" || blackjackGameLogic(dealersHand, splitHand) === "Player bust") {
             wagerLost(splitWager)
             setSplitWager(0)
+            setSplitInPlay(false)
+            setSplitPlayAgain(true)
             setSplitWinner('Dealer wins against split hand')
+            setDealerDone(false)
         } else if (blackjackGameLogic(dealersHand, splitHand) === "Draw") {
             setSplitWager(0)
+            setSplitPlayAgain(true)
+            setSplitInPlay(false)
             setSplitWinner('Draw')
+            setDealerDone(false)
         }
     }
 
@@ -359,6 +401,58 @@ const Game = ({user, updateMoney, wagerLost}) => {
         return (
             <p>{blackjackCardRunnings(dealersHand, playerHand)}</p>
         )
+    }
+
+    const SplitRunningTotal = () => {
+        return (
+            <p>{blackjackCardRunnings(dealersHand, splitHand)}</p>
+        )
+    }
+
+    const forceDouble = () => {
+        setSplitStand(false)
+        setInPlay(true);
+        setSplitInPlay(true)
+        setDealersHand([{
+            "code": "QH",
+            "image": "https://deckofcardsapi.com/static/img/QH.png",
+            "images": {
+            "svg": "https://deckofcardsapi.com/static/img/QH.svg",
+            "png": "https://deckofcardsapi.com/static/img/QH.png"
+            },
+            "value": "QUEEN",
+            "suit": "HEARTS"
+            },
+            {
+            "code": "6C",
+            "image": "https://deckofcardsapi.com/static/img/6C.png",
+            "images": {
+            "svg": "https://deckofcardsapi.com/static/img/6C.svg",
+            "png": "https://deckofcardsapi.com/static/img/6C.png"
+            },
+            "value": "6",
+            "suit": "CLUBS"
+            }])
+        setPlayerHand([{
+            "code": "5H",
+            "image": "https://deckofcardsapi.com/static/img/5H.png",
+            "images": {
+            "svg": "https://deckofcardsapi.com/static/img/5H.svg",
+            "png": "https://deckofcardsapi.com/static/img/5H.png"
+            },
+            "value": "5",
+            "suit": "HEARTS"
+            },
+            {
+            "code": "5C",
+            "image": "https://deckofcardsapi.com/static/img/5C.png",
+            "images": {
+            "svg": "https://deckofcardsapi.com/static/img/5C.svg",
+            "png": "https://deckofcardsapi.com/static/img/5C.png"
+            },
+            "value": "5",
+            "suit": "CLUBS"
+            }])
     }
 
     return (
@@ -387,10 +481,10 @@ const Game = ({user, updateMoney, wagerLost}) => {
                 <PlayerHit />
                 <PlayerStand />
 
-                {playerStand && splitStand ? <p>Play another round?</p> : <>
-                    {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
-                    {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
-                </>}
+                {playerStand && splitStand ? <p>Play another round?</p> : <> </>}
+
+                {splitHand.length > 1 && playerStand && !splitStand ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
+                {splitHand.length > 1 && playerStand && !splitStand ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
 
                 <Surrender />
 
@@ -399,13 +493,16 @@ const Game = ({user, updateMoney, wagerLost}) => {
                 {splitButton()}
 
                 {playerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
-                {splitHand.length? getHandValue(splitHand) : <></>}
+                {splitHand.length? checkIfBustWithAce(splitHand) : <></>}
 
                 <p>{winner}</p>
 
                 <RunningTotals />
+                {splitHand.length ? <SplitRunningTotal /> : <></>}
 
                 <ShowDrawCardOrWager />
+
+                <button onClick={forceDouble} >Force double!! For show purpose only</button>
                 
             </div>
         </>
