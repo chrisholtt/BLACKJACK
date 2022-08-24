@@ -88,6 +88,23 @@ function App() {
     })
   }
 
+  const DevModeUserReset = () => {
+    if (user.name == 'test') {
+      return (
+        <>
+          <br />
+          <br />
+          <button onClick={() => setUser({
+            name: 'chris',
+            money: 1000,
+            exp: 200,
+            totalEarnings: 1000
+          })}>Click to reset user</button>
+        </>
+      )
+    }
+  }
+
 
 
   return (
@@ -114,19 +131,11 @@ function App() {
         </Routes>
 
 
-
         <br />
         <br />
         <br />
         <br />
-        <br />
-        <button onClick={() => setUser({
-          name: 'chris',
-          money: 1000,
-          exp: 200,
-          totalEarnings: 1000
-        })}>Click to reset user</button>
-
+        <DevModeUserReset />
         <PlayerModes />
         <SettingsDial />
 

@@ -7,10 +7,10 @@ const PlayerModes = () => {
         <div className='wrapper'>
 
             <div>
-                <h1 style={{ color: 'white' }}>PICK A GAME MODE</h1>
+                <h1 className='white-text-backdrop'>PICK A GAME MODE</h1>
                 <div className='play-modes-container'>
-                    <Link to="/players1"> <div className="play-mode" style={{ color: 'white' }}>1 Player</div> </Link>
-                    <Link to="/rules"><div className="play-mode" style={{ color: 'white' }}>Rules</div></Link>
+                    <Link to="/players1"> <div className="play-mode" style={{ color: 'white' }}>PLAY GAME</div> </Link>
+                    <Link to="/rules"><div className="play-mode" style={{ color: 'white' }}>RULES</div></Link>
                 </div>
             </div>
         </div>
