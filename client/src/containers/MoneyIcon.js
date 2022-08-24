@@ -25,9 +25,9 @@ const MoneyIcon = ({ user }) => {
         <div className='nav-icon'>
             <div className='money-icon'>
                 {counting ?
-                    <div><FontAwesomeIcon icon={faSackDollar} spin /> <CountUp start={money} end={newAmnt} onEnd={() => handleEnd()} /></div>
+                    <div><FontAwesomeIcon icon={faSackDollar} style={{ color: 'whitesmoke' }} spin /> <CountUp start={money} end={newAmnt} onEnd={() => handleEnd()} style={{ color: 'whitesmoke' }} /></div>
                     :
-                    <div><FontAwesomeIcon icon={faSackDollar} /> {money}</div>}
+                    <div style={{ display: 'flex' }}><FontAwesomeIcon icon={faSackDollar} style={{ color: 'whitesmoke' }} /> <h4 style={{ color: 'whitesmoke' }}>{money}</h4></div>}
             </div>
         </div>
     )

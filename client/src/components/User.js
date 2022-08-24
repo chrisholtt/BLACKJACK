@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
+
 
 
 const User = ({ user, updateUserName }) => {
@@ -20,7 +22,8 @@ const User = ({ user, updateUserName }) => {
         <>
             <div className="wrapper">
                 <div className="game-mode-container">
-                    <Link to="/">❌</Link>
+                    <Link to="/"><Button color="error" variant="contained" >CLOSE</Button></Link>
+
                     <h1>User Info:</h1>
                     <form style={{ display: 'flex', flexDirection: 'column' }}>
                         <label htmlFor="name">Change nickname</label>

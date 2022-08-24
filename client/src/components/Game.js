@@ -315,19 +315,19 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
     const ShowDrawCardOrWager = () => {
         if (playAgain && splitPlayAgain) {
             return (
-                <button onClick={handlePlayAgain}>Play again</button>
+                <Button color='success' variant="contained" onClick={handlePlayAgain}>Play again</Button>
             )
         } else if (!inPlay && !wagerMade) {
             return (
                 <div>
                     <button onClick={handleDec} className='hl-btn'>-</button>
-                    <button onClick={handleWagerSubmit}>Wager</button>
+                    <Button color='success' variant="contained" onClick={handleWagerSubmit}>Wager</Button>
                     <button onClick={handleInc} className='hl-btn'>+</button>
                 </div>
             )
         } else if (!inPlay && wagerMade) {
             return (
-                <button onClick={handleClick}>Draw card</button>
+                <Button color='success' variant="contained" onClick={handleClick}>Draw card</Button>
             )
         }
     }
@@ -523,62 +523,62 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
     return (
         <>
             <div className="game-wrapper">
-                {showExp.show && <ExpDisplay />}
                 <img src="/static/poker-table.jpg" alt="" className='game-table' />
-                <div className='top-half'>
-                    <div className="hand">
-                        <DealerCardNodes />
+                <div className="margin-wrapper">
+                    {showExp.show && <ExpDisplay />}
+                    <div className='top-half'>
+                        <div className="hand">
+                            <DealerCardNodes />
+                        </div>
                     </div>
-                </div>
+                    <br />
+                    <div className="top-half">
+                        <div className="hand">
+                            {playerCardsNodes}
+                        </div>
+
+                        {splitHand.length ? <div className='split-divider'></div> : <></>}
+
+                        <div className="hand">
+                            {splitCardsNodes}
+                        </div>
+                    </div>
+                    <ButtonGroup>
+                        {splitHand.length > 1 && playerStand && !splitStand ? <Button color='success' variant="contained" onClick={handleSplitHit}>Hit second hand</Button> : <></>}
+                        {splitHand.length > 1 && playerStand && !splitStand ? <Button color='success' variant="contained" onClick={handleSplitStandClick}>Stand split hand</Button> : <></>}
+                    </ButtonGroup>
 
 
-                <p> your wager is: {wager}</p>
+                    <ButtonGroup>
+                        <PlayerHit />
+                        <PlayerStand />
+                        <Surrender />
+                        <DoubleDown />
+                        {splitButton()}
+                    </ButtonGroup>
 
-                <div className="top-half">
-                    <div className="hand">
-                        {playerCardsNodes}
+
+
+
+                    <div className="game-text-container">
+                        <p> Wager: ${wager}</p>
+                        {playerStand && splitHand.length ? <p>{splitWinner}</p> : <></>}
+                        {splitHand.length ? checkIfBustWithAce(splitHand) : <></>}
+
+                        <p>{winner}</p>
+                        <RunningTotals />
+                        <ShowDrawCardOrWager />
                     </div>
 
-                    {splitHand.length ? <div className='split-divider'></div> : <></>}
 
-                    <div className="hand">
-                        {splitCardsNodes}
-                    </div>
+                    {splitHand.length ? <SplitRunningTotal /> : <></>}
+
+
+                    {user.name === "Test" || user.name === "test" ? <button onClick={forceDouble} >Force double!! For show purpose only</button> : <></>}
+
+                    <br />
+                    <Link to="/"><Button color="error" variant="contained" >LEAVE GAME</Button></Link>
                 </div>
-                <ButtonGroup>
-                    {splitHand.length > 1 && playerStand && !splitStand ? <Button color='success' variant="contained" onClick={handleSplitHit}>Hit second hand</Button> : <></>}
-                    {splitHand.length > 1 && playerStand && !splitStand ? <Button color='success' variant="contained" onClick={handleSplitStandClick}>Stand split hand</Button> : <></>}
-                </ButtonGroup>
-
-
-                <ButtonGroup>
-                    <PlayerHit />
-                    <PlayerStand />
-                    <Surrender />
-                    <DoubleDown />
-                    {splitButton()}
-                </ButtonGroup>
-
-
-
-
-                <div className="game-text-container">
-                    {playerStand && splitHand.length ? <p>{splitWinner}</p> : <></>}
-                    {splitHand.length ? checkIfBustWithAce(splitHand) : <></>}
-
-                    <p>{winner}</p>
-                    <RunningTotals />
-                    <ShowDrawCardOrWager />
-                </div>
-
-
-                {splitHand.length ? <SplitRunningTotal /> : <></>}
-
-
-                {user.name === "Test" || user.name === "test" ? <button onClick={forceDouble} >Force double!! For show purpose only</button> : <></>}
-
-
-                <Link to="/" className='leave-game'>LEAVE GAME</Link>
             </div>
         </>
     )

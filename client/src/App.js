@@ -28,7 +28,8 @@ function App() {
     const noLocalUser = {
       name: 'User',
       money: 1000,
-      exp: 0
+      exp: 0,
+      totalEarnings: 1000
     }
     return noLocalUser
   }
@@ -59,8 +60,9 @@ function App() {
 
   const updateMoney = (amount) => {
     const newAmount = user.money + amount
+    const newTotalEarnings = user.totalEarnings + amount
     setUser(prev => {
-      return { ...prev, money: newAmount }
+      return { ...prev, money: newAmount, totalEarnings: newTotalEarnings }
     })
   }
 
@@ -86,6 +88,8 @@ function App() {
     })
   }
 
+
+
   return (
     <div className='app-wrapper'>
 
@@ -95,7 +99,7 @@ function App() {
         <Routes>
           <Route path="/user" element={<User user={user} updateUserName={updateUserName} />} />
           <Route path="/level" element={<Level levels={levels} user={user} />} />
-          <Route path="/money" element={<Money />} />
+          <Route path="/money" element={<Money user={user} />} />
           <Route path="/rewards" element={<Rewards user={user} updateMoney={updateMoney} handleExpGain={handleExpGain} />}>
             <Route path='wheel' element={<SpinWheel user={user} updateMoney={updateMoney} handleExpGain={handleExpGain} updateMoneyDecrease={updateMoneyDecrease} />} />
             <Route path='dice' element={<Dice updateMoney={updateMoney} updateMoneyDecrease={updateMoneyDecrease} user={user} handleExpGain={handleExpGain} />} />
@@ -118,7 +122,8 @@ function App() {
         <button onClick={() => setUser({
           name: 'chris',
           money: 1000,
-          exp: 200
+          exp: 200,
+          totalEarnings: 1000
         })}>Click to reset user</button>
 
         <PlayerModes />
