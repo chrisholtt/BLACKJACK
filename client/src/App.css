@@ -153,6 +153,17 @@ img {
     overflow: hidden;
     border: 1px solid black;
 }
+.level-progress-wrapper-not-nav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100px;
+    height: 8px;
+    background: #f44336;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid black;
+}
 
 .level-progress{
     position: absolute;
@@ -160,6 +171,14 @@ img {
     height: 6px;
     background: rgb(255,255,255);
 background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(81,177,85,1) 65%, rgba(76,175,80,1) 100%);
+}
+
+.completed-level {
+    text-decoration: line-through;
+}
+.current-level{
+    text-shadow: 0px 0px 6px #ffff91;
+
 }
 
 /* MONEY ICON */
@@ -282,4 +301,63 @@ background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(81,177,85,1) 65
     height: 100px;
     background: #f44336;
     border-radius: 0 0 10px 10px;
+}
+
+/* HL */
+.hl-box{
+    width: 500px;
+    margin: 5px;
+    height: 100px;
+    background: whitesmoke;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+.hl-box-on{
+    width: 500px;
+    margin: 5px;
+    height: 100px;
+    background: red;
+    border-radius: 10px;
+    border: 1px solid gray;
+}
+
+.wager-box-hl{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 150px;
+    border-radius: 10px;
+    border: 2px solid goldenrod;
+    background: whitesmoke;
+}
+
+.hl-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: #4caf50;
+}
+.hl-wager-title{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.hl-wager-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hl-wager-wrapper {
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.hl-wager-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

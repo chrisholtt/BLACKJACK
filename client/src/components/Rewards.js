@@ -19,8 +19,8 @@ const Rewards = () => {
                     <Link to="/rewards/dice">
                         <div className="rewards-nav-icon" style={{ background: '#f44336' }}>DICE</div>
                     </Link>
-                    <Link to="/rewards/wheel">
-                        <div className="rewards-nav-icon" style={{ background: '#4caf50' }}>RPS</div>
+                    <Link to="/rewards/HL">
+                        <div className="rewards-nav-icon" style={{ background: '#4caf50' }}>H/L</div>
                     </Link>
                     <Link to="/rewards/wheel">
                         <div className="rewards-nav-icon" style={{ background: '#f44336' }}>DAILY</div>

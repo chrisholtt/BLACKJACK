@@ -11,9 +11,11 @@ import Game from './components/Game'
 import Rewards from './components/Rewards';
 import Rules from './components/Rules';
 import { getLevel } from './levels';
+import { levels } from './levels';
 import SettingsDial from './components/SettingsDial';
 import SpinWheel from './containers/SpinWheel';
 import Dice from './components/Dice';
+import HL from './components/HL';
 
 function App() {
 
@@ -47,6 +49,13 @@ function App() {
       return { ...prev, level: lvl }
     })
   }, [user.exp])
+
+  // Update username function:
+  const updateUserName = (name) => {
+    setUser((prev) => {
+      return { ...prev, name: name }
+    })
+  }
 
   const updateMoney = (amount) => {
     const newAmount = user.money + amount
@@ -84,12 +93,13 @@ function App() {
         <Navbar user={user} updateMoney={updateMoney} />
 
         <Routes>
-          <Route path="/user" element={<User />} />
-          <Route path="/level" element={<Level />} />
+          <Route path="/user" element={<User user={user} updateUserName={updateUserName} />} />
+          <Route path="/level" element={<Level levels={levels} user={user} />} />
           <Route path="/money" element={<Money />} />
           <Route path="/rewards" element={<Rewards user={user} updateMoney={updateMoney} handleExpGain={handleExpGain} />}>
             <Route path='wheel' element={<SpinWheel user={user} updateMoney={updateMoney} handleExpGain={handleExpGain} updateMoneyDecrease={updateMoneyDecrease} />} />
             <Route path='dice' element={<Dice updateMoney={updateMoney} updateMoneyDecrease={updateMoneyDecrease} user={user} handleExpGain={handleExpGain} />} />
+            <Route path='HL' element={<HL user={user} updateMoneyDecrease={updateMoneyDecrease} updateMoney={updateMoney} />} />
           </Route>
 
           <Route path="/players1" element={<GameModes />} />

@@ -32,6 +32,11 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
         }
     }
 
+    const handleChange = (e) => {
+        const { value } = e.target
+        setGuess(value)
+    }
+
     const rollDice = () => {
         if (!wager || !guess) {
             alert('Please have a wager and a guess to play')
@@ -61,20 +66,17 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
         }, 2000)
         setTimeout(() => {
             setRollText(null)
-            const random = Math.ceil(Math.random() * 6);
+            const random = Math.ceil(Math.random() * 12);
             setRoll(random)
             setMessage(`Better luck next time`)
-            handleExpGain(25)
+            handleExpGain(50)
 
             // If guess is right pay user x 6 of wager value
             if (guess == random) {
-                updateMoney(wager * 6)
-                setMessage(`Congratulations, you won ${wager * 6}`)
+                updateMoney(wager * 12)
+                setMessage(`Congratulations, you won ${wager * 12}`)
             }
         }, 2500)
-
-
-
     }
 
     return (
@@ -83,13 +85,7 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
                 <img src="/static/dice.gif" alt="" />
                 <h3>{guess ? `guess: ${guess}` : `make a guess`}</h3>
                 <div>
-                    <input type="radio" name='guess' value={1} onChange={() => setGuess(1)} />
-                    <input type="radio" name='guess' value={2} onChange={() => setGuess(2)} />
-                    <input type="radio" name='guess' value={3} onChange={() => setGuess(3)} />
-                    <input type="radio" name='guess' value={4} onChange={() => setGuess(4)} />
-                    <input type="radio" name='guess' value={5} onChange={() => setGuess(5)} />
-                    <input type="radio" name='guess' value={6} onChange={() => setGuess(6)} />
-
+                    <input type="number" min="2" max="12" placeholder='guess' onChange={handleChange} />
                 </div>
                 <h2>PLACE A WAGER</h2>
                 <div className="dice-wager">
@@ -101,7 +97,7 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
             </div>
 
             <div className="dice-prize-container">
-                <h3>Potential payout: <FontAwesomeIcon icon={faSackDollar} /> {wager * 6}</h3>
+                <h3>Potential payout: <FontAwesomeIcon icon={faSackDollar} /> {wager * 12}</h3>
                 <h2>{rollText}</h2>
                 <h1>{roll && `dice rolled: ${roll}`}</h1>
                 <h3>{message}</h3>
