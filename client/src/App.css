@@ -317,7 +317,7 @@ background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(81,177,85,1) 65
 /* WRAPS THE rewards display and rewards nav */
 .rewards-container{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     position: absolute;
 }
 
@@ -328,7 +328,7 @@ background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(81,177,85,1) 65
     justify-content: space-around;
     width: 120px;
     height: 500px;
-    background: rgba(63, 63, 63, 0.3);
+    background: rgba(63, 63, 63, 0.6);
     border-radius: 0px 10px 10px 0px;
     margin-left: -1px;
     border: 2px solid black;
@@ -361,7 +361,7 @@ background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(81,177,85,1) 65
     width: 700px;
     height:500px;
     border: 2px solid black;
-    background: rgba(63, 63, 63, 0.3);
+    background: rgba(63, 63, 63, 0.7);
     z-index: 10;
     border-radius: 10px 0px 0px 10px;
     overflow: scroll;
