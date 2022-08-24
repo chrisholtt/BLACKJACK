@@ -23,6 +23,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     const [playAgain, setPlayAgain] = useState(false);
     const [splitPlayAgain, setSplitPlayAgain] = useState(true)
     const [dealerDone, setDealerDone] = useState(false);
+    const [gameEnd, setGameEnd] = useState(true)
 
     // Fetch all cards
     useEffect(() => {
@@ -41,6 +42,8 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setSplitHand([])
                 setPlayerStand(false)
                 setInPlay(true);
+                setDealerDone(false)
+                setGameEnd(false)
                 splitButton()
             })
         if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
@@ -70,7 +73,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
     // auto stops when player has more than 21 points
     useEffect(() => {
-
         if (checkIfBustWithAce(playerHand) === 21 && playerHand.length === 2) {
             if (splitInPlay) {
                 updateMoney(wager * 1.5)
@@ -87,6 +89,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setPlayerStand(false);
                 setWinner('Player win BLACKJACK');
                 setDealerDone(false);
+                setGameEnd(true)
             }
         }
         if (checkIfBustWithAce(playerHand) > 21) {
@@ -103,6 +106,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setInPlay(false);
                 setPlayAgain(true);
                 findWinner();
+                setGameEnd(true)
             }
         }
     }, [playerHand])
@@ -113,12 +117,15 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             setWager(0)
             setSplitStand(true)
             setSplitWinner('Split hand wins BLACKJACK')
+            setDealerDone(true)
+            setGameEnd(true)
         }
         if (checkIfBustWithAce(splitHand) > 21) {
             setSplitStand(true)
             wagerLost(splitWager)
             setSplitWager(0)
             findSplitWinner()
+            setGameEnd(true)
         }
     }, [splitHand])
 
@@ -127,16 +134,17 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             dealerHit();
         } else if (playerStand && splitStand) {
             setDealerDone(true);
+            setGameEnd(true)
         }
     }, [playerStand, splitStand])
-
+    
     useEffect(() => {
         if (dealersHand.length >= 3) {
             if (playerStand && aceOfDealer(dealersHand) < 17) {
-
                 dealerHit();
             } else if (playerStand) {
                 setDealerDone(true);
+                setGameEnd(true)
             }
         }
     }, [dealersHand])
@@ -148,13 +156,10 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             if (playerStand && splitStand && splitHand.length) {
                 findWinner();
                 findSplitWinner();
-                setDealerDone(false);
             } else if (playerStand && splitStand && !splitHand.length) {
                 findWinner()
-                setDealerDone(false)
             } else {
                 findWinner();
-                setDealerDone(false);
             }
         }
     }, [dealerDone])
@@ -169,19 +174,10 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     }
 
 
-    // useEffect(() => {
-    //     // setWinner(blackjackGameLogic(dealersHand, playerHand))
-    //     // setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
-    //     // console.log(winner);
-
-    // }, [playerHand])
-
-
-    // separets the dealer's cards to show
 
 
     const DealerCardNodes = () => {
-        if (dealersHand.length == 2) {
+        if (dealersHand.length == 2 && !gameEnd) {
             return (
                 <>
                     <img className='card' src={dealersHand[0].image} alt="playing_card" />
