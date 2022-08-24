@@ -1,8 +1,18 @@
 import React from 'react'
+import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 
-const Money = () => {
+
+
+const Money = ({ user }) => {
     return (
-        <div>Money</div>
+        <div className="wrapper">
+            <div className="game-mode-container">
+                <Link to="/"><Button color="error" variant="contained" >CLOSE</Button></Link>
+                <h1>Total cash: ${user.money}</h1>
+                <h1>Total earnings: ${user.totalEarnings}</h1>
+            </div>
+        </div>
     )
 }
 

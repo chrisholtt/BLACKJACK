@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { getLevelPercentage } from '../levels';
+import Button from '@mui/material/Button';
 
 
 
@@ -25,7 +26,7 @@ const Level = ({ levels, user }) => {
     return (
         <div className="wrapper">
             <div className="game-mode-container">
-                <Link to="/">❌</Link>
+                <Link to="/"><Button color="error" variant="contained" >CLOSE</Button></Link>
                 {levelNodes}
                 <br />
                 <h2>Total: {user.exp}xp</h2>

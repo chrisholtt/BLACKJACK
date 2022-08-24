@@ -29,12 +29,12 @@ const LevelIcon = ({ level, exp }) => {
             <div className="level-icon">
                 {levelChanging ?
                     <div>
-                        <FontAwesomeIcon icon={faStar} spin />
+                        <FontAwesomeIcon icon={faStar} style={{ color: 'whitesmoke' }} spin />
                         <h1 className='level-changing'>{level}</h1>
                     </div>
                     :
                     <div>
-                        <FontAwesomeIcon icon={faStar} />
+                        <FontAwesomeIcon icon={faStar} style={{ color: 'whitesmoke' }} />
                         <h1 className='level-changed'>{level}</h1>
                     </div>
                 }
