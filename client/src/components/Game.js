@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Draggable from "react-draggable"
 import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
 const { blackjackGameLogic, getHandValue, blackjackCardRunnings } = require('../gameLogic')
 
-const Game = ({user, updateMoney, wagerLost}) => {
+const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
@@ -48,30 +51,31 @@ const Game = ({user, updateMoney, wagerLost}) => {
             setInPlay(false);
             setPlayAgain(true);
             findWinner();
-    }}, [playerHand])
+        }
+    }, [playerHand])
 
     useEffect(() => {
-            if(playerStand && getHandValue(dealersHand) < 17){
-                console.log('Dealer hits');
-                dealerHit();
-            } else {
-                setDealerDone(true);
-            }
+        if (playerStand && getHandValue(dealersHand) < 17) {
+            console.log('Dealer hits');
+            dealerHit();
+        } else {
+            setDealerDone(true);
+        }
     }, [playerStand])
 
     useEffect(() => {
-        if(dealersHand.length >= 3) {
-            if(playerStand && getHandValue(dealersHand) < 17){
+        if (dealersHand.length >= 3) {
+            if (playerStand && getHandValue(dealersHand) < 17) {
                 console.log('Dealer hits');
                 dealerHit();
-            } else if (playerStand){
+            } else if (playerStand) {
                 setDealerDone(true);
             }
         }
     }, [dealersHand])
 
     useEffect(() => {
-        if(dealerDone) {
+        if (dealerDone) {
             console.log('finding winner');
             findWinner();
             setDealerDone(false);
@@ -92,7 +96,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
         setPlayAgain(false);
         setWinner('');
     }
-        
+
     // Fetches the starting hands
     const handleClick = () => {
         fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
@@ -110,14 +114,20 @@ const Game = ({user, updateMoney, wagerLost}) => {
             split()
         }
     }
-    
+
+
+    // useEffect(() => {
+    //     // setWinner(blackjackGameLogic(dealersHand, playerHand))
+    //     // setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
+    //     // console.log(winner);
+
+    // }, [playerHand])
+
 
     // separets the dealer's cards to show
     const dealerCardsNodes = dealersHand.map((card, index) => {
         return (
-            <div className='hand' key={index}>
-                <img key={index} src={card.image} alt="playing_card" />
-            </div>
+            <img className='card' key={index} src={card.image} alt="playing_card" />
         )
     })
 
@@ -125,7 +135,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const playerCardsNodes = playerHand.map((card, index) => {
         return (
             <Draggable>
-                <img key={index} src={card.image} alt="playing_card" />
+                <img className='card' key={index} src={card.image} alt="playing_card" />
             </Draggable>
         )
     })
@@ -142,12 +152,12 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
     // dealer getting another card, happens at the end of the game when player stands
     const dealerHit = () => {
-            fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-                .then(res => res.json())
-                .then(data => {
-                    const copyHand = [...dealersHand, data.cards[0]]
-                    setDealersHand(copyHand)
-                })
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...dealersHand, data.cards[0]]
+                setDealersHand(copyHand)
+            })
     }
 
     // set player stand, allows dealer to play after, payout acording to who won
@@ -178,7 +188,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const splitButton = () => {
         if (playerHand.length === 2) {
             if (playerHand[0].value === playerHand[1].value) {
-                return <button onClick={split}>Split?</button>
+                return <Button color='success' variant="contained" onClick={split}>Split?</Button>
             }
         }
     }
@@ -188,7 +198,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const splitCardsNodes = splitHand.map((card, index) => {
         return (
             <Draggable>
-                <img key={index} src={card.image} alt="playing_card" />
+                <img key={index} src={card.image} alt="playing_card" className='card' />
             </Draggable>
         )
     })
@@ -221,6 +231,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
         }
     }
 
+
     const handleInc = () => {
         if (wager < 100) {
             setWager(prev => prev + 10)
@@ -232,7 +243,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     }
 
     const ShowDrawCardOrWager = () => {
-        if(playAgain) {
+        if (playAgain) {
             return (
                 <button onClick={handlePlayAgain}>Play again</button>
             )
@@ -252,25 +263,25 @@ const Game = ({user, updateMoney, wagerLost}) => {
     }
 
     const PlayerHit = () => {
-        if(inPlay){
+        if (inPlay) {
             return (
-                <button onClick={handleHitClick}>Hit</button>
+                <Button color='success' variant="contained" onClick={handleHitClick}>HIT</Button>
             )
         }
     }
 
     const PlayerStand = () => {
-        if(inPlay){
+        if (inPlay) {
             return (
-                <button onClick={handleStandClick}>Stand</button>
+                <Button color='success' variant="contained" onClick={handleStandClick}>STAND</Button>
             )
         }
     }
 
     const Surrender = () => {
-        if(playerHand.length === 2 && inPlay){
+        if (playerHand.length === 2 && inPlay) {
             return (
-                <button onClick={handleSurrender}>Surrender</button>
+                <Button color='success' variant="contained" onClick={handleSurrender}>Surrender</Button>
             )
         }
     }
@@ -283,9 +294,9 @@ const Game = ({user, updateMoney, wagerLost}) => {
     }
 
     const DoubleDown = () => {
-        if(playerHand.length === 2 && inPlay){
+        if (playerHand.length === 2 && inPlay) {
             return (
-                <button onClick={handleDoubleDown}>Double Down</button>
+                <Button color='success' variant="contained" onClick={handleDoubleDown}>DOUBLE DOWN</Button>
             )
         }
     }
@@ -308,7 +319,9 @@ const Game = ({user, updateMoney, wagerLost}) => {
             console.log('Player win');
             setWinner('Player win');
             setDealerDone(false);
+
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
+
             wagerLost(wager);
             setWager(0);
             setWagerMade(false)
@@ -339,49 +352,61 @@ const Game = ({user, updateMoney, wagerLost}) => {
     return (
         <>
             <div className="game-wrapper">
-                <Link to="/">CLOSE</Link>
-
+                <img src="/static/poker-table.jpg" alt="" className='game-table' />
                 <div className='top-half'>
-
-                <div className="hand">
-                    {dealerCardsNodes}
+                    <div className="hand">
+                        {dealerCardsNodes}
+                    </div>
                 </div>
-            </div>
             
+
                 <p> your wager is: {wager}</p>
-                <hr />
 
-                <div className="hand">
-                    {playerCardsNodes}
+                <div className="top-half">
+                    <div className="hand">
+                        {playerCardsNodes}
+                    </div>
+
+                    {splitHand.length ? <div className='split-divider'></div> : <></>}
+
+                    <div className="hand">
+                        {splitCardsNodes}
+                    </div>
+                </div>
                 </div>
 
-                <div className="hand">
-                    {splitCardsNodes}
-                </div>
-
-                <PlayerHit />
-                <PlayerStand />
 
                 {playerStand && splitStand ? <p>Play another round?</p> : <>
-                    {splitHand.length ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
-                    {splitHand.length ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
+                    {/* {inPlay ? <button onClick={handleHitClick}>Hit</button> : <></>} */}
+                    <ButtonGroup>
+                        {splitHand.length ? <Button color='success' variant="contained" onClick={handleSplitHit}>Hit second hand</Button> : <></>}
+                        {/* {inPlay ? <button onClick={handleStandClick}>Stand</button> : <></>} */}
+                        {splitHand.length ? <Button color='success' variant="contained" onClick={handleSplitStandClick}>Stand split hand</Button> : <></>}
+                    </ButtonGroup>
+
                 </>}
 
-                <Surrender />
+                <ButtonGroup>
+                    <PlayerHit />
+                    <PlayerStand />
+                    <Surrender />
+                    <DoubleDown />
+                    {splitButton()}
+                </ButtonGroup>
 
-                <DoubleDown />
 
-                {splitButton()}
 
-                {playerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
-                {splitHand.length? getHandValue(splitHand) : <></>}
+                <div className="game-text-container">
+                    {playerStand && splitHand.length ? <p>{splitWinner}</p> : <></>}
+                    {splitHand.length ? getHandValue(splitHand) : <></>}
 
-                <p>{winner}</p>
+                    <p>{winner}</p>
+                    <RunningTotals />
+                    <ShowDrawCardOrWager />
+                </div>
 
-                <RunningTotals />
 
-                <ShowDrawCardOrWager />
-                
+                <Link to="/" className='leave-game'>LEAVE GAME</Link>
             </div>
         </>
     )

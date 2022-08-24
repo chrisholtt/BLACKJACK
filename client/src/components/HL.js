@@ -11,8 +11,8 @@ const HL = ({ user, updateMoneyDecrease, updateMoney }) => {
 
 
     const handleChange = (e) => {
-        const { id } = e.target
-        setGuess(id)
+        const { value } = e.target
+        setGuess(value)
     }
 
     const handleDoubleDown = () => {
@@ -23,10 +23,12 @@ const HL = ({ user, updateMoneyDecrease, updateMoney }) => {
     }
 
     const getWinner = () => {
-        if (result == parseInt(guess)) {
-            updateMoney(wager * 2)
-        } else if (result != parseInt(guess)) {
+        if (result !== guess) {
+            console.log('not equal')
             updateMoneyDecrease(wager)
+        } else if (result == guess) {
+            console.log('equal')
+            updateMoney(wager)
         }
     }
 
@@ -46,12 +48,12 @@ const HL = ({ user, updateMoneyDecrease, updateMoney }) => {
             <>
                 <div style={{ display: 'flex' }}>
                     <div className={result == 1 || tempResult == 1 ? 'hl-box-on' : 'hl-box'}>HIGH</div>
-                    <input type="radio" name="hl" id={1} checked={guess == 1} onChange={handleChange} />
+                    <input type="radio" name="hl" value={1} checked={guess == 1} onChange={handleChange} />
                 </div>
                 <hr />
                 <div style={{ display: 'flex' }}>
                     <div className={result == 2 || tempResult == 2 ? 'hl-box-on' : 'hl-box'}>LOW</div>
-                    <input type="radio" name="hl" id={2} checked={guess == 2} onChange={handleChange} />
+                    <input type="radio" name="hl" value={2} checked={guess == 2} onChange={handleChange} />
                 </div>
             </>
         )
@@ -90,12 +92,15 @@ const HL = ({ user, updateMoneyDecrease, updateMoney }) => {
             setTempResult(1)
         }, 1800)
         setTimeout(() => {
-            setResult(random)
+            setResult(`${random}`)
             setTempResult(null)
             setPlaying(false)
-            getWinner()
-
         }, 2000)
+
+        setTimeout(() => {
+            getWinner()
+        }, 2100)
+
     }
 
     const WinningNode = () => {
@@ -131,8 +136,10 @@ const HL = ({ user, updateMoneyDecrease, updateMoney }) => {
                             <h3>potential payout: {wager * 2}</h3>
                         </div>
                     </div>
-                    <button onClick={playGame}>PLAY</button>
-                    {!playing && <h4>{result == guess ? <WinningNode /> : 'shit luck'} </h4>}
+                    <div className="hl-wager-wrapper">
+                        <button onClick={playGame}>PLAY</button>
+                        {!playing && <h4>{result == guess ? <WinningNode /> : 'shit luck'} </h4>}
+                    </div>
 
                 </div>
 
