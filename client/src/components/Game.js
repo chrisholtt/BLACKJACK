@@ -90,6 +90,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
         setPlayerHand([]);
         setSplitHand([]);
         setPlayAgain(false);
+        setWinner('');
     }
         
     // Fetches the starting hands
