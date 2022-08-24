@@ -103,11 +103,9 @@ function App() {
           </Route>
 
           <Route path="/players1" element={<GameModes />} />
-          <Route path="/players2" element={<GameModes />} />
           <Route path="/rules" element={<Rules />} />
 
           <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerLost={wagerLost} />} />
-          <Route path="/game2" element={<Game />} />
         </Routes>
 
 
