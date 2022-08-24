@@ -27,8 +27,6 @@ const Game = ({user, updateMoney, wagerMoney}) => {
     fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
     .then(res => res.json())
     .then(data => setDeckId(data.deck_id))
-    console.log("this is working");
-    console.log(deckId);
     }
 
     // auto stops when player has more than 21 points
@@ -42,7 +40,10 @@ const Game = ({user, updateMoney, wagerMoney}) => {
         if (getHandValue(playerHand) > 21) {
             setSplitStand(true)
         }}, [splitHand])
-
+        
+console.log(fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
+.then(res => res.json())
+.then(data => setDeckId(data.deck_id)));
         
     // Fetches the starting hands
     const handleClick = () => {
