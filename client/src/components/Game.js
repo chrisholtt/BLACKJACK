@@ -16,6 +16,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     const [winner, setWinner] = useState('')
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
+    const [wagerMade, setWagerMade] = useState(false);
     const [inPlay, setInPlay] = useState(false)
     const [playAgain, setPlayAgain] = useState(false);
     const [dealerDone, setDealerDone] = useState(false);
@@ -29,11 +30,24 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
     // auto stops when player has more than 21 points
     useEffect(() => {
+        if (getHandValue(playerHand) === 21 && playerHand.length === 2) {
+            console.log("Blackjack");
+            updateMoney(wager * 1.5)
+            setWager(0)
+            setWagerMade(false)
+            setInPlay(false);
+            setPlayAgain(true);
+            setPlayerStand(false);
+            console.log('Player win BLACKJACK');
+            setWinner('Player win BLACKJACK');
+            setDealerDone(false);
+        }
         if (getHandValue(playerHand) > 21) {
             console.log("player bust");
             setPlayerStand(true);
             wagerLost(wager);
             setWager(0);
+            setWagerMade(false)
             setInPlay(false);
             setPlayAgain(true);
             findWinner();
@@ -80,6 +94,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         setPlayerHand([]);
         setSplitHand([]);
         setPlayAgain(false);
+        setWinner('');
     }
 
     // Fetches the starting hands
@@ -100,12 +115,14 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         }
     }
 
+
     // useEffect(() => {
     //     // setWinner(blackjackGameLogic(dealersHand, playerHand))
     //     // setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
     //     // console.log(winner);
 
     // }, [playerHand])
+
 
     // separets the dealer's cards to show
     const dealerCardsNodes = dealersHand.map((card, index) => {
@@ -131,11 +148,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 const copyHand = [...playerHand, data.cards[0]]
                 setPlayerHand(copyHand)
             })
-        // if (getHandValue(playerHand) > 21) {
-        //     // setPlayerStand(true)
-        //     // console.log("player bust");
-        //     // findWinner();
-        // }
     }
 
     // dealer getting another card, happens at the end of the game when player stands
@@ -151,36 +163,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
         setPlayerStand(true);
-
-        console.log('Player stand');
-        // if (getHandValue(dealersHand < 17)){
-        //     dealerHit();
-        // }
-        // console.log('Dealer done');
-        // findWinner();
-        // console.log('Found winner');
-        // do {
-        //     dealerHit();
-        //     console.log(getHandValue(dealersHand));
-        // }
-        // while (getHandValue(dealersHand) < 17);
-        // if (getHandValue(dealersHand) < 17) {
-        //     dealerHit();
-        // } else {
-        //     findWinner();
-        // }
-        // if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust") {
-        //     updateMoney(wager * 2)
-        //     setWager(0)
-        //     setInPlay(false);
-        //     setPlayAgain(true);
-        // }
-        //  else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins") {
-        //     wagerLost(wager);
-        //     setWager(0);
-        //     setInPlay(false);
-        //     setPlayAgain(true);
-        // }
     }
 
     const handleSplitStandClick = () => {
@@ -231,57 +213,32 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             })
     }
 
-    //wager buttons
-    const handlwage1 = () => {
-        if (user.money > 0) {
-            // const newAmount = user.money - 1
-            const newWage = wager + 1
-            // wagerMoney(newAmount)
-            setWager(newWage)
-        }
+
+    const handleWagerSubmit = () => {
+        setWagerMade(true);
     }
-    const handlwage2 = () => {
-        if (user.money > 1) {
-            // const newAmount = user.money - 2
-            const newWage = wager + 2
-            // wagerMoney(newAmount)
-            setWager(newWage)
+
+    const handleDec = () => {
+        if (wager === 0) {
+            return
         }
-    }
-    const handlwage5 = () => {
-        if (user.money > 4) {
-            const newAmount = user.money - 5
-            const newWage = wager + 5
-            wagerMoney(newAmount)
-            setWager(newWage)
+        if (wager < 100) {
+            setWager(prev => prev - 10)
+        } else if (wager >= 100 && wager <= 900) {
+            setWager(prev => prev - 100)
+        } else if (wager >= 1000) {
+            setWager(prev => prev - 1000)
         }
     }
 
-    const handlwage10 = () => {
-        if (user.money > 9) {
-            // const newAmount = user.money - 10
-            const newWage = wager + 10
-            // wagerMoney(newAmount)
-            setWager(newWage)
-        }
-    }
 
-    const handlwage20 = () => {
-        if (user.money >= 20) {
-            // const newAmount = user.money - 20
-            const newWage = wager + 20
-            // wagerMoney(newAmount)
-            setWager(newWage)
-            setInPlay(false);
-        }
-    }
-    const handlwage50 = () => {
-        if (user.money >= 50) {
-            // const newAmount = user.money - 50
-            const newWage = wager + 50
-            // wagerMoney(newAmount)
-            setWager(newWage)
-            setInPlay(false);
+    const handleInc = () => {
+        if (wager < 100) {
+            setWager(prev => prev + 10)
+        } else if (wager >= 100 && wager <= 900) {
+            setWager(prev => prev + 100)
+        } else if (wager >= 1000) {
+            setWager(prev => prev + 1000)
         }
     }
 
@@ -290,11 +247,15 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             return (
                 <button onClick={handlePlayAgain}>Play again</button>
             )
-        } else if (!inPlay && wager === 0) {
+        } else if(!inPlay && !wagerMade) {
             return (
-                <button onClick={handlwage10}>Wager</button>
+                <>
+                    <button onClick={handleDec}>-</button>
+                    <button onClick={handleWagerSubmit}>Wager</button> 
+                    <button onClick={handleInc}>+</button>
+                </>
             )
-        } else if (!inPlay && wager > 0) {
+        } else if(!inPlay && wagerMade) {
             return (
                 <button onClick={handleClick}>Draw card</button>
             )
@@ -351,16 +312,19 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust") {
             updateMoney(wager * 2)
             setWager(0)
+            setWagerMade(false)
             setInPlay(false);
             setPlayAgain(true);
             setPlayerStand(false);
             console.log('Player win');
             setWinner('Player win');
             setDealerDone(false);
-        }
-        else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
+
+        } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
+
             wagerLost(wager);
             setWager(0);
+            setWagerMade(false)
             setInPlay(false);
             setPlayAgain(true);
             setPlayerStand(false);
@@ -369,6 +333,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             setDealerDone(false);
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Draw") {
             setWager(0);
+            setWagerMade(false)
             setInPlay(false);
             setPlayAgain(true);
             setPlayerStand(false);
@@ -393,6 +358,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                         {dealerCardsNodes}
                     </div>
                 </div>
+            
 
                 <p> your wager is: {wager}</p>
 
@@ -407,6 +373,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                         {splitCardsNodes}
                     </div>
                 </div>
+                </div>
 
 
                 {playerStand && splitStand ? <p>Play another round?</p> : <>
@@ -416,6 +383,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                         {/* {inPlay ? <button onClick={handleStandClick}>Stand</button> : <></>} */}
                         {splitHand.length ? <Button color='success' variant="contained" onClick={handleSplitStandClick}>Stand split hand</Button> : <></>}
                     </ButtonGroup>
+
                 </>}
 
                 <ButtonGroup>
@@ -425,7 +393,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                     <DoubleDown />
                     {splitButton()}
                 </ButtonGroup>
-
 
 
 
