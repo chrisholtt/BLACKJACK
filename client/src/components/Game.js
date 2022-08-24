@@ -1,10 +1,9 @@
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 import React, { useEffect, useState } from 'react'
 import Draggable from "react-draggable"
 import { Link } from "react-router-dom";
 const { blackjackGameLogic, blackjackCardRunnings, aceOfDealer, checkIfBustWithAce } = require('../gameLogic')
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-const { blackjackGameLogic, getHandValue, blackjackCardRunnings } = require('../gameLogic')
 
 
 const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
@@ -41,9 +40,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setPlayerHand([data.cards[2], data.cards[3]])
                 setSplitHand([])
                 setPlayerStand(false)
-                console.log("restarting the game on split stand");
                 setInPlay(true);
-                console.log('handle start');
                 splitButton()
             })
         if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
@@ -170,24 +167,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         setWinner('');
     }
 
-    // Fetches the starting hands
-    const handleClick = () => {
-        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
-            .then(res => res.json())
-            .then(data => {
-                setDealersHand([data.cards[0], data.cards[1]])
-                setPlayerHand([data.cards[2], data.cards[3]])
-                setSplitHand([])
-                setPlayerStand(false)
-                setSplitStand(false)
-                splitButton()
-                setInPlay(true);
-            })
-        if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
-            split()
-        }
-    }
-
 
     // useEffect(() => {
     //     // setWinner(blackjackGameLogic(dealersHand, playerHand))
@@ -214,26 +193,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     })
 
 
-    // gives player anouther card, makes player stop if the card gets the points over 21
-    const handleHitClick = () => {
-        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-            .then(res => res.json())
-            .then(data => {
-                const copyHand = [...playerHand, data.cards[0]]
-                setPlayerHand(copyHand)
-            })
-    }
-
-    // dealer getting another card, happens at the end of the game when player stands
-    const dealerHit = () => {
-        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-            .then(res => res.json())
-            .then(data => {
-                const copyHand = [...dealersHand, data.cards[0]]
-                setDealersHand(copyHand)
-            })
-    }
-
 
     // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
@@ -244,14 +203,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         setSplitStand(true);
     }
 
-    // the split button
-    const splitButton = () => {
-        if (playerHand.length === 2 && !splitHand.length) {
-            if (playerHand[0].value === playerHand[1].value) {
-                return <button onClick={split}>Split?</button>
-            }
-        }
-    }
 
     // if there are two of the same value allows player to split and deal with each separatly
     const split = () => {
@@ -272,7 +223,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
     // the split button
     const splitButton = () => {
-        if (playerHand.length === 2) {
+        if (playerHand.length === 2 && !splitHand.length) {
             if (playerHand[0].value === playerHand[1].value) {
                 return <Button color='success' variant="contained" onClick={split}>Split?</Button>
             }
@@ -584,10 +535,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 </div>
 
 
-                <RunningTotals />
                 {splitHand.length ? <SplitRunningTotal /> : <></>}
-
-                <ShowDrawCardOrWager />
 
                 <button onClick={forceDouble} >Force double!! For show purpose only</button>
                 
