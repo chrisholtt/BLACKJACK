@@ -27,7 +27,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
     // auto stops when player has more than 21 points
     useEffect(() => {
-        if (getHandValue(playerHand) === 21 && playerHand.length) {
+        if (getHandValue(playerHand) === 21 && playerHand.length === 2) {
             console.log("Blackjack");
             updateMoney(wager * 1.5)
             setWager(0)
