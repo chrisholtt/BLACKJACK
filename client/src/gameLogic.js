@@ -19,8 +19,9 @@ const getHandValue = (hand) => {
 const checkIfBustWithAce = (hand) => {
     let total = getHandValue(hand)
     if (total > 21) {
-        for (card of hand) {
+        for (let card of hand) {
             if (card.value === "ACE") {
+                let newTotal
                 return newTotal = total - 10
             }
         }
