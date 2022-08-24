@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Draggable from "react-draggable"
 import { Link } from "react-router-dom";
 const { blackjackGameLogic, blackjackCardRunnings, aceOfDealer, checkIfBustWithAce } = require('../gameLogic')
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+const { blackjackGameLogic, getHandValue, blackjackCardRunnings } = require('../gameLogic')
 
-const Game = ({user, updateMoney, wagerLost}) => {
+
+const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
@@ -14,6 +18,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const [splitWinner, setSplitWinner] = useState('')
     const [wager, setWager] = useState(0)
     const [splitWager, setSplitWager] = useState(0)
+    const [wagerMade, setWagerMade] = useState(false);
     const [inPlay, setInPlay] = useState(false)
     const [splitInPlay, setSplitInPlay] = useState(false)
     const [playAgain, setPlayAgain] = useState(false);
@@ -68,6 +73,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
     // auto stops when player has more than 21 points
     useEffect(() => {
+
         if (checkIfBustWithAce(playerHand) === 21 && playerHand.length === 2) {
             if (splitInPlay) {
                 updateMoney(wager * 1.5)
@@ -129,8 +135,9 @@ const Game = ({user, updateMoney, wagerLost}) => {
     useEffect(() => {
         if(dealersHand.length >= 3) {
             if(playerStand && aceOfDealer(dealersHand) < 17){
+
                 dealerHit();
-            } else if (playerStand){
+            } else if (playerStand) {
                 setDealerDone(true);
             }
         }
@@ -138,6 +145,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
     
     useEffect(() => {
+
         if(dealerDone) {
             if (playerStand && splitStand && splitHand.length) {
                 findWinner();
@@ -159,15 +167,40 @@ const Game = ({user, updateMoney, wagerLost}) => {
         setPlayerHand([]);
         setSplitHand([]);
         setPlayAgain(false);
+        setWinner('');
     }
-    
-    
+
+    // Fetches the starting hands
+    const handleClick = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`)
+            .then(res => res.json())
+            .then(data => {
+                setDealersHand([data.cards[0], data.cards[1]])
+                setPlayerHand([data.cards[2], data.cards[3]])
+                setSplitHand([])
+                setPlayerStand(false)
+                setSplitStand(false)
+                splitButton()
+                setInPlay(true);
+            })
+        if (playerHand[0].value === playerHand[1].value && playerHand[0].value === "Ace") {
+            split()
+        }
+    }
+
+
+    // useEffect(() => {
+    //     // setWinner(blackjackGameLogic(dealersHand, playerHand))
+    //     // setSplitWinner(blackjackGameLogic(dealersHand, splitHand))
+    //     // console.log(winner);
+
+    // }, [playerHand])
+
+
     // separets the dealer's cards to show
     const dealerCardsNodes = dealersHand.map((card, index) => {
         return (
-            <div className='hand' key={index}>
-                <img key={index} src={card.image} alt="playing_card" />
-            </div>
+            <img className='card' key={index} src={card.image} alt="playing_card" />
         )
     })
     
@@ -175,12 +208,33 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const playerCardsNodes = playerHand.map((card, index) => {
         return (
             <Draggable>
-                <img key={index} src={card.image} alt="playing_card" />
+                <img className='card' key={index} src={card.image} alt="playing_card" />
             </Draggable>
         )
     })
-    
-    
+
+
+    // gives player anouther card, makes player stop if the card gets the points over 21
+    const handleHitClick = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...playerHand, data.cards[0]]
+                setPlayerHand(copyHand)
+            })
+    }
+
+    // dealer getting another card, happens at the end of the game when player stands
+    const dealerHit = () => {
+        fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+            .then(res => res.json())
+            .then(data => {
+                const copyHand = [...dealersHand, data.cards[0]]
+                setDealersHand(copyHand)
+            })
+    }
+
+
     // set player stand, allows dealer to play after, payout acording to who won
     const handleStandClick = () => {
         setPlayerStand(true);
@@ -215,11 +269,22 @@ const Game = ({user, updateMoney, wagerLost}) => {
             })
     }
 
+
+    // the split button
+    const splitButton = () => {
+        if (playerHand.length === 2) {
+            if (playerHand[0].value === playerHand[1].value) {
+                return <Button color='success' variant="contained" onClick={split}>Split?</Button>
+            }
+        }
+    }
+
+
     // shows the split hand
     const splitCardsNodes = splitHand.map((card, index) => {
         return (
             <Draggable>
-                <img key={index} src={card.image} alt="playing_card" />
+                <img key={index} src={card.image} alt="playing_card" className='card' />
             </Draggable>
         )
     })
@@ -235,41 +300,49 @@ const Game = ({user, updateMoney, wagerLost}) => {
     }
 
 
-    const handlwage10 = () => {
-        if(user.money > 9) {
-            // const newAmount = user.money - 10
-            const newWage = wager + 10
-            // wagerMoney(newAmount)
-            setWager(newWage)
+    const handleWagerSubmit = () => {
+        setWagerMade(true);
+    }
+
+    const handleDec = () => {
+        if (wager === 0) {
+            return
+        }
+        if (wager < 100) {
+            setWager(prev => prev - 10)
+        } else if (wager >= 100 && wager <= 900) {
+            setWager(prev => prev - 100)
+        } else if (wager >= 1000) {
+            setWager(prev => prev - 1000)
         }
     }
-    
-    const handlwage20 = () => {
-        if(user.money >= 20) {
-            // const newAmount = user.money - 20
-            const newWage = wager + 20
-            // wagerMoney(newAmount)
-            setWager(newWage)
+
+
+
+    const handleInc = () => {
+        if (wager < 100) {
+            setWager(prev => prev + 10)
+        } else if (wager >= 100 && wager <= 900) {
+            setWager(prev => prev + 100)
+        } else if (wager >= 1000) {
+            setWager(prev => prev + 1000)
         }
     }
-    const handlwage50 = () => {
-        if(user.money >= 50) {
-        // const newAmount = user.money - 50
-        const newWage = wager + 50
-        // wagerMoney(newAmount)
-        setWager(newWage)
-    }}
 
     const ShowDrawCardOrWager = () => {
-        if(playAgain && splitPlayAgain) {
+        if (playAgain && splitPlayAgain) {
             return (
                 <button onClick={handlePlayAgain}>Play again</button>
             )
-        } else if(!inPlay && wager===0) {
+        } else if(!inPlay && !wagerMade) {
             return (
-                <button onClick={handlwage10}>Wager</button> 
+                <>
+                    <button onClick={handleDec}>-</button>
+                    <button onClick={handleWagerSubmit}>Wager</button> 
+                    <button onClick={handleInc}>+</button>
+                </>
             )
-        } else if(!inPlay && wager>0) {
+        } else if(!inPlay && wagerMade) {
             return (
                 <button onClick={handleClick}>Draw card</button>
             )
@@ -277,17 +350,17 @@ const Game = ({user, updateMoney, wagerLost}) => {
     }
 
     const PlayerHit = () => {
-        if(inPlay){
+        if (inPlay) {
             return (
-                <button onClick={handleHitClick}>Hit</button>
+                <Button color='success' variant="contained" onClick={handleHitClick}>HIT</Button>
             )
         }
     }
 
     const PlayerStand = () => {
-        if(inPlay){
+        if (inPlay) {
             return (
-                <button onClick={handleStandClick}>Stand</button>
+                <Button color='success' variant="contained" onClick={handleStandClick}>STAND</Button>
             )
         }
     }
@@ -295,7 +368,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const Surrender = () => {
         if(playerHand.length === 2 && inPlay && !splitInPlay){
             return (
-                <button onClick={handleSurrender}>Surrender</button>
+                <Button color='success' variant="contained" onClick={handleSurrender}>Surrender</Button>
             )
         }
     }
@@ -310,7 +383,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
     const DoubleDown = () => {
         if(playerHand.length === 2 && inPlay && !splitInPlay){
             return (
-                <button onClick={handleDoubleDown}>Double Down</button>
+                <Button color='success' variant="contained" onClick={handleDoubleDown}>DOUBLE DOWN</Button>
             )
         }
     }
@@ -326,6 +399,7 @@ const Game = ({user, updateMoney, wagerLost}) => {
         if (blackjackGameLogic(dealersHand, playerHand) === "Player wins" || blackjackGameLogic(dealersHand, playerHand) === "Dealer bust") {
             updateMoney(wager * 2)
             setWager(0)
+            setWagerMade(false)
             if (splitInPlay) {
                 setPlayAgain(true);
                 setInPlay(false)
@@ -458,44 +532,57 @@ const Game = ({user, updateMoney, wagerLost}) => {
     return (
         <>
             <div className="game-wrapper">
-                <Link to="/">CLOSE</Link>
-
+                <img src="/static/poker-table.jpg" alt="" className='game-table' />
                 <div className='top-half'>
-
-                <div className="hand">
-                    {dealerCardsNodes}
+                    <div className="hand">
+                        {dealerCardsNodes}
+                    </div>
                 </div>
-            </div>
             
+
                 <p> your wager is: {wager}</p>
-                <hr />
 
-                <div className="hand">
-                    {playerCardsNodes}
+                <div className="top-half">
+                    <div className="hand">
+                        {playerCardsNodes}
+                    </div>
+
+                    {splitHand.length ? <div className='split-divider'></div> : <></>}
+
+                    <div className="hand">
+                        {splitCardsNodes}
+                    </div>
                 </div>
 
-                <div className="hand">
-                    {splitCardsNodes}
-                </div>
-
-                <PlayerHit />
-                <PlayerStand />
 
                 {playerStand && splitStand ? <p>Play another round?</p> : <> </>}
 
+                <ButtonGroup>
                 {splitHand.length > 1 && playerStand && !splitStand ? <button onClick={handleSplitHit}>Hit second hand</button> : <></>}
                 {splitHand.length > 1 && playerStand && !splitStand ? <button onClick={handleSplitStandClick}>Stand split hand</button> : <></>}
+                </ButtonGroup>
 
-                <Surrender />
 
-                <DoubleDown />
+                <ButtonGroup>
+                    <PlayerHit />
+                    <PlayerStand />
+                    <Surrender />
+                    <DoubleDown />
+                    {splitButton()}
+                </ButtonGroup>
 
-                {splitButton()}
 
-                {playerStand && splitHand.length ?<p>{splitWinner}</p>:<></>}
-                {splitHand.length? checkIfBustWithAce(splitHand) : <></>}
 
-                <p>{winner}</p>
+
+                <div className="game-text-container">
+                    {playerStand && splitHand.length ? <p>{splitWinner}</p> : <></>}
+                    {splitHand.length? checkIfBustWithAce(splitHand) : <></>}
+
+                    <p>{winner}</p>
+                    <RunningTotals />
+                    <ShowDrawCardOrWager />
+                </div>
+
 
                 <RunningTotals />
                 {splitHand.length ? <SplitRunningTotal /> : <></>}
@@ -504,6 +591,8 @@ const Game = ({user, updateMoney, wagerLost}) => {
 
                 <button onClick={forceDouble} >Force double!! For show purpose only</button>
                 
+                <Link to="/" className='leave-game'>LEAVE GAME</Link>
+
             </div>
         </>
     )
