@@ -58,10 +58,9 @@ const blackjackGameLogic = (dealerHand, playerHand) => {
     }
 }
 
-const blackjackCardRunnings = (dealerHand, playerHand) => {
-    const dealerRunning = aceOfDealer(dealerHand);
+const blackjackCardRunnings = (playerHand) => {
     const playerRunning = checkIfBustWithAce(playerHand);
-    return `Dealer running total: ${dealerRunning} : Player running total: ${playerRunning}`;
+    return `Player running total: ${playerRunning}`;
 }
 
 module.exports = {getValue, blackjackGameLogic, checkIfBustWithAce, aceOfDealer, blackjackCardRunnings};

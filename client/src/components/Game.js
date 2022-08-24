@@ -235,7 +235,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
     // the split button
     const splitButton = () => {
-        if (playerHand.length === 2 && !splitHand.length) {
+        if (playerHand.length === 2 && !splitHand.length && inPlay) {
             if (playerHand[0].value === playerHand[1].value) {
                 return <Button color='success' variant="contained" onClick={split}>Split?</Button>
             }
