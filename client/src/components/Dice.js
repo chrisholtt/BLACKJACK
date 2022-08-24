@@ -8,6 +8,8 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
     const [rollText, setRollText] = useState(null)
     const [guess, setGuess] = useState(null)
     const [message, setMessage] = useState(null)
+    const [showExp, setShowExp] = useState({ show: false, xp: null })
+
 
 
     const handleInc = () => {
@@ -75,12 +77,28 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
             if (guess == random) {
                 updateMoney(wager * 12)
                 setMessage(`Congratulations, you won ${wager * 12}`)
+                displayExp(25)
             }
         }, 2500)
     }
 
+    // Call to display the xp gain
+    const displayExp = (xp) => {
+        setShowExp({ show: true, xp: xp })
+        setTimeout(() => {
+            setShowExp({ show: false, xp: null })
+        }, 4000)
+    }
+
+    const ExpDisplay = () => {
+        return (
+            <div className="xp-display">+{showExp.xp}xp</div>
+        )
+    }
+
     return (
         <div className='dice-wrapper'>
+            {showExp.show && <ExpDisplay />}
             <div className="dice-container">
                 <img src="/static/dice.gif" alt="" />
                 <h3>{guess ? `guess: ${guess}` : `make a guess`}</h3>
