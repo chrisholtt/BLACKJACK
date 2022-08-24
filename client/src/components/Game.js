@@ -284,8 +284,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         }
     }
 
-
-
     const handleInc = () => {
         if (wager < 100) {
             setWager(prev => prev + 10)
@@ -383,7 +381,8 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
             wagerLost(wager);
             setWager(0);
-            if (splitInPlay) {
+            setWagerMade(false)
+            if (splitInPlay){
                 setPlayAgain(true);
                 setInPlay(false)
                 console.log("dealer wins and resetting split hand wiht split hand");
@@ -397,6 +396,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             }
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Draw") {
             setWager(0);
+            setWagerMade(false)
             if (splitInPlay) {
                 setPlayAgain(true);
                 setInPlay(false)
