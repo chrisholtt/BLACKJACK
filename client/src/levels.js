@@ -38,6 +38,18 @@ export const levels = [
     {
         level: 10,
         exp: 1400,
+    },
+    {
+        level: 11,
+        exp: 1500,
+    },
+    {
+        level: 12,
+        exp: 1600,
+    },
+    {
+        level: 13,
+        exp: 1700,
     }
 ]
 
