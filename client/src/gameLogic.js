@@ -49,7 +49,7 @@ const blackjackGameLogic = (dealerHand, playerHand) => {
 
 const blackjackCardRunnings = (dealerHand, playerHand) => {
     const dealerRunning = getHandValue(dealerHand);
-    const playerRunning = getHandValue(playerHand);
+    const playerRunning = checkIfBustWithAce(playerHand);
     return `Dealer running total: ${dealerRunning} : Player running total: ${playerRunning}`;
 }
 
