@@ -11,11 +11,11 @@ const Level = ({ levels, user }) => {
 
     const levelNodes = levels.map((level) => {
         if (user.level > level.level) {
-            return <h1 className='completed-level'>lvl: {level.level}</h1>
+            return <h1 className='completed-level' style={{ color: 'white' }}>lvl: {level.level}</h1>
         } else if (user.level == level.level) {
-            return <h1 className='current-level'>lvl: {level.level}</h1>
+            return <h1 className='current-level' style={{ color: 'white' }}>lvl: {level.level}</h1>
         } else {
-            return <h1>lvl: {level.level}</h1>
+            return <h1 style={{ color: 'white' }}>lvl: {level.level}</h1>
         }
     })
 
@@ -29,17 +29,17 @@ const Level = ({ levels, user }) => {
                 <Link to="/"><Button color="error" variant="contained" >CLOSE</Button></Link>
                 {levelNodes}
                 <br />
-                <h2>Total: {user.exp}xp</h2>
+                <h2 style={{ color: 'white' }}>Total: {user.exp}xp</h2>
                 <br />
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <h3>{user.level}</h3>
+                    <h3 style={{ color: 'white' }}>{user.level}</h3>
                     <div className="level-progress-wrapper-not-nav">
                         <div className="level-progress" style={{ width: levelPercentage }}></div>
                     </div>
-                    <h3>{user.level + 1}</h3>
+                    <h3 style={{ color: 'white' }}>{user.level + 1}</h3>
                 </div>
-                <h3>{user.exp} / {levels[user.level].exp} xp</h3>
+                <h3 style={{ color: 'white' }}>{user.exp} / {levels[user.level].exp} xp</h3>
 
             </div>
         </div>

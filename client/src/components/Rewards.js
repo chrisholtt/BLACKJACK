@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link, Outlet } from "react-router-dom";
+import Button from '@mui/material/Button';
+
 
 
 const Rewards = () => {
@@ -7,7 +9,7 @@ const Rewards = () => {
         <div className='wrapper'>
 
             <div className='rewards-container'>
-                <Link to="/">❌</Link>
+                <Link to="/"><Button color="error" variant="contained" >CLOSE</Button></Link>
                 <div className="rewards-display">
                     <Outlet />
                 </div>

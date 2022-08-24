@@ -24,9 +24,9 @@ const User = ({ user, updateUserName }) => {
                 <div className="game-mode-container">
                     <Link to="/"><Button color="error" variant="contained" >CLOSE</Button></Link>
 
-                    <h1>User Info:</h1>
+                    <h1 style={{ color: 'white' }}>User Info:</h1>
                     <form style={{ display: 'flex', flexDirection: 'column' }}>
-                        <label htmlFor="name">Change nickname</label>
+                        <label htmlFor="name" style={{ color: 'white' }}>Change nickname</label>
                         <input type="text" name='name' placeholder={user.name} onChange={handleChange} value={name} />
                         <button onClick={handleClick}>change</button>
                     </form>

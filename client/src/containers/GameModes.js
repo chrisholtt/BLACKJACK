@@ -21,20 +21,20 @@ const GameModes = ({ user }) => {
 
     return (
         <div className="wrapper">
-            <div className='game-mode-container'>
+            <div className='game-mode-container' style={{ color: 'white' }}>
                 <Link to="/">❌</Link>
                 <h1>Game Select</h1>
                 <div className="games">
 
                     {user.level >= 1 ?
                         <Link to="/game1">
-                            <div className='game-icon'>
+                            <div className='game-icon' style={{ color: 'white' }}>
                                 <h2>Edinburgh</h2>
                                 <div>
                                     <FontAwesomeIcon icon={faDollarSign} />
                                 </div>
                                 <div>
-                                    <h3>Max payout: xxx</h3>
+                                    <h3>Max payout: $500</h3>
                                     <h4>Level required: 1</h4>
                                 </div>
                             </div>
@@ -44,14 +44,14 @@ const GameModes = ({ user }) => {
                     }
                     {user.level >= 3 ?
                         <Link to="/game2">
-                            <div className='game-icon'>
+                            <div className='game-icon' style={{ color: 'white' }}>
                                 <h2>Tokyo</h2>
                                 <div>
                                     <FontAwesomeIcon icon={faDollarSign} />
                                     <FontAwesomeIcon icon={faDollarSign} />
                                 </div>
                                 <div>
-                                    <h3>Max payout: xxx</h3>
+                                    <h3>Max payout: $3000</h3>
                                     <h4>Level required: 3</h4>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@ const GameModes = ({ user }) => {
                     }
                     {user.level >= 10 ?
                         <Link to="/game3">
-                            <div className='game-icon'>
+                            <div className='game-icon' style={{ color: 'white' }}>
                                 <h2>Las Vegas</h2>
                                 <div>
                                     <FontAwesomeIcon icon={faDollarSign} />
@@ -69,7 +69,7 @@ const GameModes = ({ user }) => {
                                     <FontAwesomeIcon icon={faDollarSign} />
                                 </div>
                                 <div>
-                                    <h3>Max payout: xxx</h3>
+                                    <h3>Max payout: $6000</h3>
                                     <h4>Level required: 10</h4>
                                 </div>
                             </div>
