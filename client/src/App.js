@@ -27,8 +27,8 @@ function App() {
 
     const noLocalUser = {
       name: 'User',
-      money: 100,
-      exp: 120
+      money: 1000,
+      exp: 0
     }
     return noLocalUser
   }

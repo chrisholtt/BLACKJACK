@@ -551,7 +551,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
 
                 {user.name === "Test" || user.name === "test" ? <button onClick={forceDouble} >Force double!! For show purpose only</button> : <></>}
-                
+
 
                 <Link to="/" className='leave-game'>LEAVE GAME</Link>
 
