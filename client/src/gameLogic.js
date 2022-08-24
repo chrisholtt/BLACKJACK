@@ -19,8 +19,9 @@ const getHandValue = (hand) => {
 const checkIfBustWithAce = (hand) => {
     let total = getHandValue(hand)
     if (total > 21) {
-        for (card of hand) {
+        for (let card of hand) {
             if (card.value === "ACE") {
+                let newTotal
                 return newTotal = total - 10
             }
         }
@@ -48,7 +49,7 @@ const blackjackGameLogic = (dealerHand, playerHand) => {
 
 const blackjackCardRunnings = (dealerHand, playerHand) => {
     const dealerRunning = getHandValue(dealerHand);
-    const playerRunning = getHandValue(playerHand);
+    const playerRunning = checkIfBustWithAce(playerHand);
     return `Dealer running total: ${dealerRunning} : Player running total: ${playerRunning}`;
 }
 
