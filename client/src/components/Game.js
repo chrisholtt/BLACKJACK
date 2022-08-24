@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const { blackjackGameLogic, blackjackCardRunnings, aceOfDealer, checkIfBustWithAce } = require('../gameLogic')
 
 
-const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
+const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
     const [deckId, setDeckId] = useState(null)
     const [dealersHand, setDealersHand] = useState([])
     const [playerHand, setPlayerHand] = useState([])
@@ -81,6 +81,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setPlayAgain(true);
                 setPlayerStand(false);
                 setWinner('Player win BLACKJACK');
+                handleExpGain(250);
             } else {
                 updateMoney(wager * 1.5)
                 setWager(0)
@@ -90,6 +91,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setWinner('Player win BLACKJACK');
                 setDealerDone(false);
                 setGameEnd(true)
+                handleExpGain(250);
             }
         }
         if (checkIfBustWithAce(playerHand) > 21) {
@@ -119,6 +121,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             setSplitWinner('Split hand wins BLACKJACK')
             setDealerDone(true)
             setGameEnd(true)
+            handleExpGain(250);
         }
         if (checkIfBustWithAce(splitHand) > 21) {
             setSplitStand(true)
@@ -366,12 +369,14 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 setInPlay(false)
                 console.log("find winner resetting on split hand with split hand");
                 setWinner('Player win');
+                handleExpGain(100);
             } else {
                 setInPlay(false);
                 setPlayAgain(true);
                 setPlayerStand(false);
                 console.log("find winner resetting on split hand without split hand");
                 setWinner('Player win');
+                handleExpGain(100);
                 setDealerDone(false);
             }
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
@@ -417,6 +422,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
             setSplitPlayAgain(true)
             setSplitInPlay(false)
             setSplitWinner('Won with split hand')
+            handleExpGain(100);
             setDealerDone(false)
         } else if (blackjackGameLogic(dealersHand, splitHand) === "Dealer wins" || blackjackGameLogic(dealersHand, splitHand) === "Player bust") {
             wagerLost(splitWager)
@@ -436,7 +442,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
 
     const RunningTotals = () => {
         return (
-            <p>{blackjackCardRunnings(dealersHand, playerHand)}</p>
+            <p>{blackjackCardRunnings(playerHand)}</p>
         )
     }
 
