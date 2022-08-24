@@ -1,36 +1,82 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
 
 
 
-const GameModes = () => {
+const GameModes = ({ user }) => {
+
+
+    const GameModeLocked = () => {
+        return (
+            <div className="game-icon-locked">
+                <div className="game-locked-banner">
+                    <h2>GAME MODE LOCKED</h2>
+                </div>
+            </div>
+        )
+    }
+
+
     return (
         <div className="wrapper">
             <div className='game-mode-container'>
                 <Link to="/">❌</Link>
                 <h1>Game Select</h1>
                 <div className="games">
-                    <Link to="/game1">
-                        <div className="game-icon">
-                            <h2>Edinburgh</h2>
-                            <h3>Max payout: xxx</h3>
-                            <h4>Level required: 1</h4>
-                        </div>
-                    </Link>
-                    <Link to="/game2">
-                        <div className="game-icon">
-                            <h2>Tokyo</h2>
-                            <h3>Max payout: xxx</h3>
-                            <h4>Level required: 3</h4>
-                        </div>
-                    </Link>
-                    <Link to="/game3">
-                        <div className="game-icon">
-                            <h2>Las Vegas</h2>
-                            <h3>Max payout: xxx</h3>
-                            <h4>Level required: 10</h4>
-                        </div>
-                    </Link>
+
+                    {user.level >= 1 ?
+                        <Link to="/game1">
+                            <div className='game-icon'>
+                                <h2>Edinburgh</h2>
+                                <div>
+                                    <FontAwesomeIcon icon={faDollarSign} />
+                                </div>
+                                <div>
+                                    <h3>Max payout: xxx</h3>
+                                    <h4>Level required: 1</h4>
+                                </div>
+                            </div>
+                        </Link>
+                        :
+                        <GameModeLocked />
+                    }
+                    {user.level >= 3 ?
+                        <Link to="/game2">
+                            <div className='game-icon'>
+                                <h2>Tokyo</h2>
+                                <div>
+                                    <FontAwesomeIcon icon={faDollarSign} />
+                                    <FontAwesomeIcon icon={faDollarSign} />
+                                </div>
+                                <div>
+                                    <h3>Max payout: xxx</h3>
+                                    <h4>Level required: 3</h4>
+                                </div>
+                            </div>
+                        </Link>
+                        :
+                        <GameModeLocked />
+                    }
+                    {user.level >= 10 ?
+                        <Link to="/game3">
+                            <div className='game-icon'>
+                                <h2>Las Vegas</h2>
+                                <div>
+                                    <FontAwesomeIcon icon={faDollarSign} />
+                                    <FontAwesomeIcon icon={faDollarSign} />
+                                    <FontAwesomeIcon icon={faDollarSign} />
+                                </div>
+                                <div>
+                                    <h3>Max payout: xxx</h3>
+                                    <h4>Level required: 10</h4>
+                                </div>
+                            </div>
+                        </Link>
+                        :
+                        <GameModeLocked />
+                    }
                 </div>
             </div>
         </div>

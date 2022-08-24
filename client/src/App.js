@@ -102,7 +102,7 @@ function App() {
             <Route path='HL' element={<HL user={user} updateMoneyDecrease={updateMoneyDecrease} updateMoney={updateMoney} />} />
           </Route>
 
-          <Route path="/players1" element={<GameModes />} />
+          <Route path="/players1" element={<GameModes user={user} />} />
           <Route path="/rules" element={<Rules />} />
 
           <Route path="/game1" element={<Game user={user} updateMoney={updateMoney} wagerLost={wagerLost} handleExpGain={handleExpGain} />} />

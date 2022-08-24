@@ -140,7 +140,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
             setGameEnd(true)
         }
     }, [playerStand, splitStand])
-    
+
     useEffect(() => {
         if (dealersHand.length >= 3) {
             if (playerStand && aceOfDealer(dealersHand) < 17) {
@@ -300,11 +300,11 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
             )
         } else if (!inPlay && !wagerMade) {
             return (
-                <>
-                    <button onClick={handleDec}>-</button>
+                <div>
+                    <button onClick={handleDec} className='hl-btn'>-</button>
                     <button onClick={handleWagerSubmit}>Wager</button>
-                    <button onClick={handleInc}>+</button>
-                </>
+                    <button onClick={handleInc} className='hl-btn'>+</button>
+                </div>
             )
         } else if (!inPlay && wagerMade) {
             return (
@@ -383,7 +383,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
             wagerLost(wager);
             setWager(0);
             setWagerMade(false)
-            if (splitInPlay){
+            if (splitInPlay) {
                 setPlayAgain(true);
                 setInPlay(false)
                 console.log("dealer wins and resetting split hand wiht split hand");
