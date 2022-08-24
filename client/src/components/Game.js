@@ -554,9 +554,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost }) => {
                 {splitHand.length ? <SplitRunningTotal /> : <></>}
 
 
-                <button onClick={forceDouble} >Force double!! For show purpose only</button>
-
-
                 {user.name === "Test" || user.name === "test" ? <button onClick={forceDouble} >Force double!! For show purpose only</button> : <></>}
                 
 
