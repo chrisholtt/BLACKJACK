@@ -29,8 +29,19 @@ const checkIfBustWithAce = (hand) => {
     return total
 }
 
+const aceOfDealer = (hand) => {
+    let total = getHandValue(hand)
+    hand.map((card, index) => {
+        if (card[index] !== 1 && card.value === "ACE"){
+            let newTotal
+            return newTotal = total - 10
+        }
+    })
+    return total
+}
+
 const blackjackGameLogic = (dealerHand, playerHand) => {
-    const dealerTotal = getHandValue(dealerHand)
+    const dealerTotal = aceOfDealer(dealerHand)
     const playerTotal = checkIfBustWithAce(playerHand)
     if ((playerTotal > 0) && dealerTotal === playerTotal) {
         return "Draw"
