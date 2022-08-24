@@ -24,6 +24,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
     const [splitPlayAgain, setSplitPlayAgain] = useState(true)
     const [dealerDone, setDealerDone] = useState(false);
     const [gameEnd, setGameEnd] = useState(true)
+    const [showExp, setShowExp] = useState({ show: false, xp: null })
 
     // Fetch all cards
     useEffect(() => {
@@ -82,6 +83,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
                 setPlayerStand(false);
                 setWinner('Player win BLACKJACK');
                 handleExpGain(250);
+                displayExp(250)
             } else {
                 updateMoney(wager * 1.5)
                 setWager(0)
@@ -92,6 +94,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
                 setDealerDone(false);
                 setGameEnd(true)
                 handleExpGain(250);
+                displayExp(250)
             }
         }
         if (checkIfBustWithAce(playerHand) > 21) {
@@ -122,6 +125,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
             setDealerDone(true)
             setGameEnd(true)
             handleExpGain(250);
+            displayExp(250)
         }
         if (checkIfBustWithAce(splitHand) > 21) {
             setSplitStand(true)
@@ -174,6 +178,21 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
         setSplitHand([]);
         setPlayAgain(false);
         setWinner('');
+    }
+
+
+    // Call to display the xp gain
+    const displayExp = (xp) => {
+        setShowExp({ show: true, xp: xp })
+        setTimeout(() => {
+            setShowExp({ show: false, xp: null })
+        }, 4000)
+    }
+
+    const ExpDisplay = () => {
+        return (
+            <div className="xp-display">+{showExp.xp}xp</div>
+        )
     }
 
 
@@ -370,6 +389,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
                 console.log("find winner resetting on split hand with split hand");
                 setWinner('Player win');
                 handleExpGain(100);
+                displayExp(100)
             } else {
                 setInPlay(false);
                 setPlayAgain(true);
@@ -377,6 +397,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
                 console.log("find winner resetting on split hand without split hand");
                 setWinner('Player win');
                 handleExpGain(100);
+                displayExp(100)
                 setDealerDone(false);
             }
         } else if (blackjackGameLogic(dealersHand, playerHand) === "Dealer wins" || blackjackGameLogic(dealersHand, playerHand) === "Player bust") {
@@ -423,6 +444,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
             setSplitInPlay(false)
             setSplitWinner('Won with split hand')
             handleExpGain(100);
+            displayExp(100)
             setDealerDone(false)
         } else if (blackjackGameLogic(dealersHand, splitHand) === "Dealer wins" || blackjackGameLogic(dealersHand, splitHand) === "Player bust") {
             wagerLost(splitWager)
@@ -501,6 +523,7 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
     return (
         <>
             <div className="game-wrapper">
+                {showExp.show && <ExpDisplay />}
                 <img src="/static/poker-table.jpg" alt="" className='game-table' />
                 <div className='top-half'>
                     <div className="hand">
@@ -522,10 +545,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
                         {splitCardsNodes}
                     </div>
                 </div>
-
-
-                {playerStand && splitStand ? <p>Play another round?</p> : <> </>}
-
                 <ButtonGroup>
                     {splitHand.length > 1 && playerStand && !splitStand ? <Button color='success' variant="contained" onClick={handleSplitHit}>Hit second hand</Button> : <></>}
                     {splitHand.length > 1 && playerStand && !splitStand ? <Button color='success' variant="contained" onClick={handleSplitStandClick}>Stand split hand</Button> : <></>}
@@ -560,7 +579,6 @@ const Game = ({ user, updateMoney, wagerMoney, wagerLost, handleExpGain }) => {
 
 
                 <Link to="/" className='leave-game'>LEAVE GAME</Link>
-
             </div>
         </>
     )

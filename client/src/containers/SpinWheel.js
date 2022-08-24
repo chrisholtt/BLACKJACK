@@ -6,6 +6,8 @@ import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 const SpinWheel = ({ user, updateMoney, handleExpGain, updateMoneyDecrease }) => {
     const [wheelSpin, setWheelSpin] = useState(0)
     const [prize, setPrize] = useState(null)
+    const [showExp, setShowExp] = useState({ show: false, xp: null })
+
 
     const getChoice = () => {
         const degrees = [
@@ -77,6 +79,7 @@ const SpinWheel = ({ user, updateMoney, handleExpGain, updateMoneyDecrease }) =>
             setPrize(null)
             setPrize(prizeValue)
             handleExpGain(25)
+            displayExp(25)
         }, 5000)
     }
 
@@ -85,12 +88,28 @@ const SpinWheel = ({ user, updateMoney, handleExpGain, updateMoneyDecrease }) =>
         updateMoney(prize)
     }, [prize])
 
+    // Call to display the xp gain
+    const displayExp = (xp) => {
+        setShowExp({ show: true, xp: xp })
+        setTimeout(() => {
+            setShowExp({ show: false, xp: null })
+        }, 4000)
+    }
+
+    const ExpDisplay = () => {
+        return (
+            <div className="xp-display">+{showExp.xp}xp</div>
+        )
+    }
+
 
 
 
     return (
         <>
+            {showExp.show && <ExpDisplay />}
             <div style={{ position: 'relative' }}>
+
                 <button id="spin" onClick={handleClick}>Spin</button>
                 <span className="arrow">⬇</span>
                 <div className="wheel-price"><FontAwesomeIcon icon={faSackDollar} />300/ spin</div>
