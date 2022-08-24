@@ -72,12 +72,12 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
             setRoll(random)
             setMessage(`Better luck next time`)
             handleExpGain(50)
+            displayExp(50)
 
             // If guess is right pay user x 6 of wager value
             if (guess == random) {
                 updateMoney(wager * 12)
                 setMessage(`Congratulations, you won ${wager * 12}`)
-                displayExp(25)
             }
         }, 2500)
     }
