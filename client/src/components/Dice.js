@@ -68,14 +68,15 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
         }, 2000)
         setTimeout(() => {
             setRollText(null)
-            const random = Math.ceil(Math.random() * 12);
-            setRoll(random)
+            const randomDice1 = Math.ceil(Math.random() * 5) + 1
+            const randomDice2 = Math.ceil(Math.random() * 5) + 1
+            setRoll(randomDice1 + randomDice2)
             setMessage(`Better luck next time`)
             handleExpGain(50)
             displayExp(50)
 
             // If guess is right pay user x 6 of wager value
-            if (guess == random) {
+            if (guess == roll) {
                 updateMoney(wager * 12)
                 setMessage(`Congratulations, you won ${wager * 12}`)
             }
