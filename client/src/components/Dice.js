@@ -68,9 +68,11 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
         }, 2000)
         setTimeout(() => {
             setRollText(null)
-            const randomDice1 = Math.ceil(Math.random() * 5) + 1
-            const randomDice2 = Math.ceil(Math.random() * 5) + 1
-            setRoll(randomDice1 + randomDice2)
+            setRoll(null)
+            const randomDice1 = Math.round(Math.random() * 5) + 1
+            const randomDice2 = Math.round(Math.random() * 5) + 1
+            const rollNum = randomDice1 + randomDice2
+            setRoll(rollNum)
             setMessage(`Better luck next time`)
             handleExpGain(50)
             displayExp(50)
