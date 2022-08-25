@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSackDollar } from '@fortawesome/free-solid-svg-icons'
 
@@ -40,6 +40,8 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
     }
 
     const rollDice = () => {
+        setRoll(null)
+
         if (!wager || !guess) {
             alert('Please have a wager and a guess to play')
             return
@@ -49,8 +51,6 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
             alert('not enough funds')
             return
         }
-
-        setRoll(null)
         setMessage(null)
         updateMoneyDecrease(wager)
 
@@ -76,14 +76,21 @@ const Dice = ({ updateMoney, updateMoneyDecrease, user, handleExpGain }) => {
             setMessage(`Better luck next time`)
             handleExpGain(50)
             displayExp(50)
-
-            // If guess is right pay user x 6 of wager value
-            if (guess == roll) {
-                updateMoney(wager * 12)
-                setMessage(`Congratulations, you won ${wager * 12}`)
-            }
+            // If guess is right pay user x 12 of wager value
+            // if (guess == roll) {
+            //     updateMoney(wager * 12)
+            //     setMessage(`Congratulations, you won ${wager * 12}`)
+            // }
         }, 2500)
     }
+
+    useEffect(() => {
+        if (guess == roll) {
+            updateMoney(wager * 12)
+            setMessage(`Congratulations, you won ${wager * 12}`)
+        }
+
+    }, [roll])
 
     // Call to display the xp gain
     const displayExp = (xp) => {
