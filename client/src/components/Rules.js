@@ -31,52 +31,56 @@ const Rules = () => {
 
     return (
         <div className="wrapper">
-            <div className="rules display" >
-                <Box sx={{ width: '100%' }}>
-                    <Stepper activeStep={activeStep}>
-                        {steps.map((step, index) => {
-                            const stepProps = {};
-                            const labelProps = {};
-                            return (
-                                <Step key={index} {...stepProps}>
-                                    <StepLabel {...labelProps}>{step}</StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                    {activeStep === steps.length ? (
-                        <>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                All Steps completed - you done
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Link to="/"><Button>Return to home</Button></Link>
-                                <Button onClick={handleReset}>Reset</Button>
-                            </Box>
-                        </>
-                    ) : (
-                        <>
-                            <Typography sx={{ mt: 2, mb: 1 }}>{description[activeStep]}</Typography>
-                            <img src={images[activeStep]} />
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
-                                >
-                                    Back
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
-                            </Box>
-                        </>
-                    )}
-                </Box>
+            <div className="game-mode-container">
+                <div className="rules display" >
+                    <Box sx={{ width: '100%' }}>
+                        <Stepper activeStep={activeStep}>
+                            {steps.map((step, index) => {
+                                const stepProps = {};
+                                const labelProps = {};
+                                return (
+                                    <Step key={index} {...stepProps}>
+                                        <StepLabel {...labelProps}>{step}</StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    All Steps completed - you done
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Link to="/"><Button>Return to home</Button></Link>
+                                    <Button onClick={handleReset}>Reset</Button>
+                                </Box>
+                            </>
+                        ) : (
+                            <>
+                                <Typography sx={{ mt: 2, mb: 1 }}>{description[activeStep]}</Typography>
+                                <img src={images[activeStep]} />
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        Back
+                                    </Button>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button onClick={handleNext}>
+                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                    </Button>
+                                </Box>
+                            </>
+                        )}
+                    </Box>
+                </div>
             </div>
+
+
         </div>
     )
 }
